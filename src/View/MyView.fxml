@@ -32,9 +32,21 @@
                     <MenuItem onAction="#properties" mnemonicParsing="false" text="Properties" />
                   </items>
                 </Menu>
-                  <Menu onAction="#exit" mnemonicParsing="false" text="Exit" />
-                <Menu onAction="#help" mnemonicParsing="false" text="Help" />
-                  <Menu  mnemonicParsing="false" onAction="#About" text="About" />
+                  <Menu mnemonicParsing="false" text="Exit" >
+                      <items>
+                          <MenuItem onAction="#exit" mnemonicParsing="false" text="Want to Exit?" />
+                      </items>
+                  </Menu>
+                <Menu  mnemonicParsing="false" text="Help" >
+                  <items>
+                      <MenuItem onAction="#help" mnemonicParsing="false" text="Need help?" />
+                  </items>
+                </Menu>
+                  <Menu  mnemonicParsing="false"  text="About" >
+                      <items>
+                          <MenuItem onAction="#About" mnemonicParsing="false" text="Read about the game" />
+                      </items>
+                  </Menu>
               </menus>
             </MenuBar>
          </children></VBox>

@@ -32,7 +32,7 @@ public class MyModel extends Observable implements IModel  {
 
     public MyModel() {
         mazeGeneratingServer = new Server(5400,1000,new ServerStrategyGenerateMaze());
-        solveMazeServer = new Server(5400,1000,new ServerStrategySolveSearchProblem());
+        solveMazeServer = new Server(5401,1000,new ServerStrategySolveSearchProblem());
     }
 
     public void startServers() {
@@ -110,7 +110,7 @@ public class MyModel extends Observable implements IModel  {
         notifyObservers("Shutdown servers");
     }
 
-    private void CommunicateWithServer_MazeGenerating(int height, int width) {
+    private void CommunicateWithServer_MazeGenerating(int width, int height) {
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5400, new IClientStrategy() {
                 @Override

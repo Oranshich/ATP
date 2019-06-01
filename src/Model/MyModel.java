@@ -110,7 +110,7 @@ public class MyModel extends Observable implements IModel  {
         notifyObservers("Shutdown servers");
     }
 
-    private void CommunicateWithServer_MazeGenerating(int height, int width) {
+    private void CommunicateWithServer_MazeGenerating(int width, int height) {
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5400, new IClientStrategy() {
                 @Override

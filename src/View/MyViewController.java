@@ -38,6 +38,7 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.control.Button btn_winMaze;
 
+
     public void displayMaze(int[][] maze){
 
     }
@@ -71,8 +72,19 @@ public class MyViewController implements IView, Observer {
         alert.show();
     }
 
-    public void wonGame(){
+    public void wonGame(ActionEvent actionEvent){
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("You Won The Game!!!");
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            Parent root = fxmlLoader.load(getClass().getResource("winView.fxml").openStream());
+            Scene scene = new Scene(root, 400, 350);
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            stage.show();
+        } catch (Exception e) {
 
+        }
     }
 
     public void generateMaze() {
@@ -102,6 +114,10 @@ public class MyViewController implements IView, Observer {
     public void KeyPressed(KeyEvent keyEvent) {
         viewModel.moveCharacter(keyEvent.getCode());
         keyEvent.consume();
+    }
+
+    public void properties(ActionEvent actionEvent){
+
     }
 
     //region String Property for Binding
@@ -142,12 +158,12 @@ public class MyViewController implements IView, Observer {
         });
     }
 
-    public void About(ActionEvent actionEvent) {
+    public void About() {
         try {
             Stage stage = new Stage();
             stage.setTitle("About");
             FXMLLoader fxmlLoader = new FXMLLoader();
-            Parent root = fxmlLoader.load(getClass().getResource("About.fxml").openStream());
+            Parent root = fxmlLoader.load(getClass().getResource("about.fxml").openStream());
             Scene scene = new Scene(root, 400, 350);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes

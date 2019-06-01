@@ -80,8 +80,8 @@ public class MyViewController implements IView, Observer {
         int width = Integer.valueOf(txtfld_columnsNum.getText());
         btn_generateMaze.setDisable(true);
         viewModel.generateMaze(width, heigth);
-        btn_solveMaze.setDisable(false);
-        btn_winMaze.setDisable(false);
+        //btn_solveMaze.setDisable(false);
+        //btn_winMaze.setDisable(false);
     }
 
     //Load mze from file

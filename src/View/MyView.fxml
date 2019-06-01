@@ -30,8 +30,8 @@
                   <RowConstraints />
               </rowConstraints>
                <children>
-                  <Button fx:id="btn_generateMaze" onAction="#generateMaze" mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" text="Solve Maze" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                  <Button fx:id="btn_solveMaze" onAction="#solveMaze" mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" text="Generate Maze" />
+                  <Button  fx:id="btn_solveMaze" onAction="#solveMaze" mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" text="Solve Maze" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                  <Button fx:id="btn_generateMaze" onAction="#generateMaze" mnemonicParsing="false" prefHeight="25.0" prefWidth="167.0" text="Generate Maze" />
                   <Label text="Rows:" GridPane.rowIndex="2" />
                   <Label text="Columns:" GridPane.rowIndex="3" />
                   <TextField fx:id="txtfld_rowsNum" disable="false" text="50" GridPane.columnIndex="1" GridPane.rowIndex="2"  />

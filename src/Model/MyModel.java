@@ -46,10 +46,10 @@ public class MyModel extends Observable implements IModel  {
     }
 
     @Override
-    public void generateMaze(int width, int height) {
+    public void generateMaze(int rows, int columns) {
 
         try{
-            CommunicateWithServer_MazeGenerating(width,height);
+            CommunicateWithServer_MazeGenerating(rows,columns);
             Thread.sleep(1000);
             characterRow = maze.getStartPosition().getRowIndex();
             characterColoumn = maze.getStartPosition().getColumnIndex();
@@ -62,13 +62,73 @@ public class MyModel extends Observable implements IModel  {
 
     @Override
     public void moveCharacter(KeyCode movement) {
+        switch (movement){
+            case UP:
+            case NUMPAD8:
+                if(maze.isLegal(characterRow -1,characterColoumn))
+                    characterRow--;
+                break;
+            case DOWN:
+            case NUMPAD2:
+                if(maze.isLegal(characterRow +1,characterColoumn))
+                    characterRow++;
+                break;
+            case RIGHT:
+            case NUMPAD6:
+                if(maze.isLegal(characterRow ,characterColoumn+1))
+                characterColoumn++;
+                break;
+            case LEFT:
+            case NUMPAD4:
+                if(maze.isLegal(characterRow ,characterColoumn-1))
+                characterColoumn--;
+                break;
 
+                //diagonals
+            //down right
+            case NUMPAD3:
+                if(maze.isLegal(characterRow+1 ,characterColoumn+1)) {
+                    if((maze.isLegal(characterRow+1 ,characterColoumn))|| (maze.isLegal(characterRow,characterColoumn+1))) {
+                        characterColoumn++;
+                        characterRow++;
+                    }
+                }
+                break;
+                //down left
+            case NUMPAD1:
+                if(maze.isLegal(characterRow+1 ,characterColoumn-1)) {
+                    if((maze.isLegal(characterRow ,characterColoumn+1))|| (maze.isLegal(characterRow ,characterColoumn-1))) {
+                        characterColoumn--;
+                        characterRow++;
+                    }
+                }
+                break;
+                //up right
+            case NUMPAD9:
+                if(maze.isLegal(characterRow-1 ,characterColoumn+1)) {
+                    if((maze.isLegal(characterRow-1 ,characterColoumn))|| (maze.isLegal(characterRow ,characterColoumn+1))) {
+                        characterColoumn++;
+                        characterRow--;
+                    }
+                }
+                break;
+                //up left
+            case NUMPAD7:
+                 if(maze.isLegal(characterRow-1 ,characterColoumn-1)) {
+                     if((maze.isLegal(characterRow-1 ,characterColoumn))|| (maze.isLegal(characterRow ,characterColoumn-1))) {
+                         characterColoumn--;
+                         characterRow--;
+                     }
+                  }
+            break;
+        }
+        setChanged();
+        notifyObservers();
     }
 
     @Override
     public int[][] getMaze() {
-        //return  maze.getMaze();
-        return null;
+        return  maze.getMaze();
     }
 
     @Override
@@ -110,7 +170,7 @@ public class MyModel extends Observable implements IModel  {
         notifyObservers("Shutdown servers");
     }
 
-    private void CommunicateWithServer_MazeGenerating(int width, int height) {
+    private void CommunicateWithServer_MazeGenerating(int rows, int cols) {
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5400, new IClientStrategy() {
                 @Override
@@ -119,7 +179,7 @@ public class MyModel extends Observable implements IModel  {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        int[] mazeDimensions = new int[]{height, width};
+                        int[] mazeDimensions = new int[]{rows, cols};
                         toServer.writeObject(mazeDimensions); //send maze dimensions to server
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server

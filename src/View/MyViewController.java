@@ -40,7 +40,12 @@ public class MyViewController implements IView, Observer {
 
 
     public void displayMaze(int[][] maze){
-
+        mazeDisplayer.setMaze(maze);
+        int characterPositionRow = viewModel.getCharacterPositionRow();
+        int characterPositionColumn = viewModel.getCharacterPositionColumn();
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        this.characterPositionRow.set(characterPositionRow + "");
+        this.characterPositionColumn.set(characterPositionColumn + "");
     }
 
     @Override
@@ -88,10 +93,10 @@ public class MyViewController implements IView, Observer {
     }
 
     public void generateMaze() {
-        int heigth = Integer.valueOf(txtfld_rowsNum.getText());
-        int width = Integer.valueOf(txtfld_columnsNum.getText());
+        int rows = Integer.valueOf(txtfld_rowsNum.getText());
+        int columns = Integer.valueOf(txtfld_columnsNum.getText());
         btn_generateMaze.setDisable(true);
-        viewModel.generateMaze(width, heigth);
+        viewModel.generateMaze(rows, columns);
         //btn_solveMaze.setDisable(false);
         //btn_winMaze.setDisable(false);
     }

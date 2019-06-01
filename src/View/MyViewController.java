@@ -2,6 +2,7 @@ package View;
 
 import ViewModel.MyViewModel;
 import ViewModel.MyViewModel;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -113,7 +114,9 @@ public class MyViewController implements IView, Observer {
 
     //Exit the game
     public void exit(){
+
         viewModel.shutdown();
+        Platform.exit();
     }
 
     public void KeyPressed(KeyEvent keyEvent) {

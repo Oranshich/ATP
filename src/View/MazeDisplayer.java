@@ -28,6 +28,12 @@ public class MazeDisplayer extends Canvas{
     private static String music1 = MazeDisplayer.class.getResource("...").toString();
     private static String music2 = MazeDisplayer.class.getResource("...").toString();
 
+    public MazeDisplayer() {
+        // Redraw canvas when size changes.
+        widthProperty().addListener(evt -> redraw());
+        heightProperty().addListener(evt -> redraw());
+    }
+
     public void setMaze(int[][] maze) {
         this.maze = maze;
         redraw();
@@ -48,7 +54,10 @@ public class MazeDisplayer extends Canvas{
     }
 
     public void redraw() {
+
         if (maze != null) {
+            //setWidth(maze[0].length*10);
+            //setHeight(maze.length*10);
             double canvasHeight = getHeight();
             double canvasWidth = getWidth();
             double cellHeight = canvasHeight / maze.length;
@@ -66,7 +75,7 @@ public class MazeDisplayer extends Canvas{
                     for (int j = 0; j < maze[i].length; j++) {
                         if (maze[i][j] == 1) {
                             //gc.fillRect(i * cellHeight, j * cellWidth, cellHeight, cellWidth);
-                            gc.drawImage(wallImage, i * cellHeight, j * cellWidth, cellHeight, cellWidth);
+                            gc.drawImage(wallImage, j * cellWidth, i*cellHeight, cellWidth, cellHeight);
                         }
                     }
                 }
@@ -74,7 +83,7 @@ public class MazeDisplayer extends Canvas{
                 //Draw Character
                 //gc.setFill(Color.RED);
                 //gc.fillOval(characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
-                gc.drawImage(characterImage, characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
+                gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
             } catch (FileNotFoundException e) {
                 //e.printStackTrace();
             }

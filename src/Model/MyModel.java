@@ -62,22 +62,28 @@ public class MyModel extends Observable implements IModel  {
 
     @Override
     public void moveCharacter(KeyCode movement) {
+        int [][] mazeA = getMaze();
+        maze.print();
         switch (movement){
             case UP:
                 if(maze.ifLegal(characterRow -1,characterColoumn))
-                    characterRow--;
+                    if(mazeA[characterRow -1][characterColoumn] == 0)
+                        characterRow--;
                 break;
             case DOWN:
                 if(maze.ifLegal(characterRow +1,characterColoumn))
-                    characterRow++;
+                    if(mazeA[characterRow +1][characterColoumn] == 0)
+                        characterRow++;
                 break;
             case RIGHT:
                 if(maze.ifLegal(characterRow ,characterColoumn+1))
-                characterColoumn++;
+                    if(mazeA[characterRow][characterColoumn+1] == 0)
+                        characterColoumn++;
                 break;
             case LEFT:
                 if(maze.ifLegal(characterRow ,characterColoumn-1))
-                characterColoumn--;
+                    if(mazeA[characterRow][characterColoumn-1] == 0)
+                        characterColoumn--;
                 break;
         }
         setChanged();
@@ -145,7 +151,7 @@ public class MyModel extends Observable implements IModel  {
                         byte[] decompressedMaze = new byte[10000]; //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
                         maze = new Maze(decompressedMaze);
-                        //maze.print();
+                        maze.print();
                     } catch (Exception e) {
                         //e.printStackTrace();
                     }

@@ -62,13 +62,31 @@ public class MyModel extends Observable implements IModel  {
 
     @Override
     public void moveCharacter(KeyCode movement) {
-
+        switch (movement){
+            case UP:
+                if(maze.ifLegal(characterRow -1,characterColoumn))
+                    characterRow--;
+                break;
+            case DOWN:
+                if(maze.ifLegal(characterRow +1,characterColoumn))
+                    characterRow++;
+                break;
+            case RIGHT:
+                if(maze.ifLegal(characterRow ,characterColoumn+1))
+                characterColoumn++;
+                break;
+            case LEFT:
+                if(maze.ifLegal(characterRow ,characterColoumn-1))
+                characterColoumn--;
+                break;
+        }
+        setChanged();
+        notifyObservers();
     }
 
     @Override
     public int[][] getMaze() {
-        //return  maze.getMaze();
-        return null;
+        return  maze.getMaze();
     }
 
     @Override

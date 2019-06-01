@@ -40,7 +40,12 @@ public class MyViewController implements IView, Observer {
 
 
     public void displayMaze(int[][] maze){
-
+        mazeDisplayer.setMaze(maze);
+        int characterPositionRow = viewModel.getCharacterPositionRow();
+        int characterPositionColumn = viewModel.getCharacterPositionColumn();
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        this.characterPositionRow.set(characterPositionRow + "");
+        this.characterPositionColumn.set(characterPositionColumn + "");
     }
 
     @Override

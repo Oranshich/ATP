@@ -85,9 +85,11 @@
          </children></VBox>
    </left>
    <center>
-      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="TOP_LEFT">
           <children>
-            <MazeDisplayer fx:id="mazeDisplayer" height="600" imageFileNameCharacter="resources/Images/character1.jpg" imageFileNameWall="resources/Images/wall3.jpg" width="600" />
+            <MazeDisplayer fx:id="mazeDisplayer" height="400" width="400"
+                           imageFileNameCharacter="resources/Images/Neta.jpg"
+                           imageFileNameWall="resources/Images/banana.jpg"  />
           </children>
       </Pane>
 

@@ -22,11 +22,22 @@ public class MazeDisplayer extends Canvas{
     private int[][] maze;
 
     private StringProperty ImageFileNameWall = new SimpleStringProperty();
-    private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
+    //private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
     private static MediaPlayer regular_Play;
     private static MediaPlayer player_Win;
     private static String music1 = MazeDisplayer.class.getResource("...").toString();
     private static String music2 = MazeDisplayer.class.getResource("...").toString();
+
+    public double getCanvasHeight() {
+        return canvasHeight;
+    }
+
+    public double getCanvasWidth() {
+        return canvasWidth;
+    }
+
+    private double canvasHeight;
+    private double canvasWidth;
 
     public MazeDisplayer() {
         // Redraw canvas when size changes.
@@ -60,7 +71,8 @@ public class MazeDisplayer extends Canvas{
 
                 GraphicsContext gc = getGraphicsContext2D();
                 gc.clearRect(0, 0, getWidth(), getHeight());
-
+                System.out.println("maze cell height and canvas height:" + cellHeight +", " + getHeight());
+                System.out.println("maze cell width and canvas width:" + cellWidth + ", " + getWidth());
                 //Draw Maze
                 for (int i = 0; i < maze.length; i++) {
                     for (int j = 0; j < maze[i].length; j++) {
@@ -70,8 +82,6 @@ public class MazeDisplayer extends Canvas{
                         }
                     }
                 }
-
-
             } catch (FileNotFoundException e) {
                 //e.printStackTrace();
             }

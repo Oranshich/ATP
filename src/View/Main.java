@@ -29,8 +29,11 @@ public class Main extends Application {
         Scene scene = new Scene(root, 600, 600);
         scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         primaryStage.setScene(scene);
+        primaryStage.setMinHeight(600.0);
+        primaryStage.setMinWidth(600.0);
         //--------------
         MyViewController view = fxmlLoader.getController();
+        view.Initialize();
         view.setResizeEvent(scene);
         //view.setParent(primaryStage);
         view.setViewModel(viewModel);

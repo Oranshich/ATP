@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#KeyPressed" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane fx:id="borderPane" onKeyPressed="#KeyPressed" prefHeight="560.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <VBox prefHeight="235.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -82,10 +81,10 @@
       <VBox prefHeight="365.0" prefWidth="1.0" spacing="5.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
-      <Pane fx:id="pane" prefHeight="622.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="pane" prefHeight="600.0" prefWidth="600.0" style="-fx-border-width: 4; -fx-background-color: black" BorderPane.alignment="CENTER">
          <children>
-            <MazeDisplayer fx:id="mazeDisplayer" height="560.0" imageFileNameWall="resources/Images/banana.jpg" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-             <CharacterDisplayer fx:id="characterDisplayer" height="610.0" imageFileNameCharacter="resources/Images/Neta.jpg" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <MazeDisplayer fx:id="mazeDisplayer" height="500.0" imageFileNameWall="resources/Images/banana.jpg" width="600.0" />
+             <CharacterDisplayer fx:id="characterDisplayer" height="500.0" imageFileNameCharacter="resources/Images/Neta.jpg" width="600.0" />
          </children>
       </Pane>
    </center>

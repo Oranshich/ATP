@@ -10,19 +10,24 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class CharacterDisplayer extends Canvas {
-    private int characterPositionRow = 1;
-    private int characterPositionColumn = 1;
+    private int characterPositionRow = 0;
+    private int characterPositionColumn = 0;
+    private int lastCharacterPositionRow;
+    private int lastCharacterPositionColumn;
     private int [][] maze;
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
+    private MazeDisplayer mazeDisplayer;
 
     public CharacterDisplayer(){
         widthProperty().addListener(evt -> drawCharacter());
         heightProperty().addListener(evt -> drawCharacter());
     }
     public void setCharacterPosition(int row, int column) {
+        lastCharacterPositionColumn = characterPositionColumn;
+        lastCharacterPositionRow = characterPositionRow;
         characterPositionRow = row;
         characterPositionColumn = column;
-        drawCharacter();
+        //drawCharacter();
     }
 
 
@@ -43,13 +48,16 @@ public class CharacterDisplayer extends Canvas {
         if (maze != null) {
             try {
 
-                double canvasHeight = getHeight();
-                double canvasWidth = getWidth();
+                double canvasHeight = super.getHeight();
+                double canvasWidth = super.getWidth();
                 double cellHeight = canvasHeight / maze.length;
                 double cellWidth = canvasWidth / maze[0].length;
                 Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
 
                 GraphicsContext gc = getGraphicsContext2D();
+                gc.clearRect(lastCharacterPositionRow,lastCharacterPositionColumn,canvasWidth,canvasHeight);
+                System.out.println("character cell height and canvas height:" + cellHeight +", " + getHeight());
+                System.out.println("character cell width and canvas width:" + cellWidth + ", " + getWidth());
                 //gc.setFill(Color.RED);
                 //gc.fillOval(characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
                 gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);

@@ -30,7 +30,9 @@ public class MyViewController implements IView, Observer {
     public BorderPane borderPane;
     @FXML
     private MyViewModel viewModel;
+    @FXML
     public MazeDisplayer mazeDisplayer;
+    @FXML
     public CharacterDisplayer characterDisplayer;
     public SolutionDisplayer solutionDisplayer;
     private Stage winStage;
@@ -47,21 +49,19 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.layout.AnchorPane anchorPane;
 
     public void displayMaze(int[][] maze){
-        mazeDisplayer.setMaze(maze);
-        characterDisplayer.setMaze(maze);
         int characterPositionRow = viewModel.getCharacterPositionRow();
         int characterPositionColumn = viewModel.getCharacterPositionColumn();
         characterDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
-//        mazeDisplayer.setResize(anchorPane.getHeight(),anchorPane.getWidth());
+        mazeDisplayer.setMaze(maze);
+        characterDisplayer.setMaze(maze);
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if (o == viewModel) {
-
             displayMaze(viewModel.getMaze());
             btn_generateMaze.setDisable(false);
         }
@@ -114,16 +114,27 @@ public class MyViewController implements IView, Observer {
         int rows = 20;//Integer.valueOf(txtfld_rowsNum.getText());
         int columns = 20;//Integer.valueOf(txtfld_columnsNum.getText());
         btn_generateMaze.setDisable(true);
-        viewModel.generateMaze(rows, columns);
         //btn_solveMaze.setDisable(false);
         //btn_winMaze.setDisable(false);
         //mazeDisplayer.setResize(anchorPane.getHeight(),anchorPane.getWidth());
+        //Initialize();
+        viewModel.generateMaze(rows, columns);
+    }
+
+    public void Initialize() {
         pane.prefHeightProperty().bind(borderPane.heightProperty());
         pane.prefWidthProperty().bind(borderPane.widthProperty());
         mazeDisplayer.heightProperty().bind(pane.heightProperty());
         mazeDisplayer.widthProperty().bind(pane.widthProperty());
+
+        characterDisplayer.heightProperty().bind(pane.heightProperty());
+        characterDisplayer.widthProperty().bind(pane.widthProperty());
+
         mazeDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> mazeDisplayer.redraw()));
         mazeDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> mazeDisplayer.redraw());
+
+        characterDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> characterDisplayer.drawCharacter()));
+        characterDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> characterDisplayer.drawCharacter());
     }
 
     //Load maze from file

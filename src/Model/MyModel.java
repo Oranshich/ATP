@@ -26,6 +26,25 @@ public class MyModel extends Observable implements IModel  {
     public Server solveMazeServer;
     private int characterRow;
     private int characterColoumn;
+    private int lastCharRow;
+    private int lastCharCol;
+
+    public int getLastCharRow() {
+        return lastCharRow;
+    }
+
+    public void setLastCharRow(int lastCharRow) {
+        this.lastCharRow = lastCharRow;
+    }
+
+    public int getLastCharCol() {
+        return lastCharCol;
+    }
+
+    public void setLastCharCol(int lastCharCol) {
+        this.lastCharCol = lastCharCol;
+    }
+
     private Maze maze = null;
     private Solution solution = null;
     //private ExecutorService threadPool = Executors.newCachedThreadPool();
@@ -65,23 +84,33 @@ public class MyModel extends Observable implements IModel  {
         switch (movement){
             case UP:
             case NUMPAD8:
-                if(maze.isLegal(characterRow -1,characterColoumn))
+                if(maze.isLegal(characterRow -1,characterColoumn)) {
+                    lastCharRow = characterRow;
                     characterRow--;
+                }
                 break;
             case DOWN:
             case NUMPAD2:
-                if(maze.isLegal(characterRow +1,characterColoumn))
+                if(maze.isLegal(characterRow +1,characterColoumn)) {
+                    lastCharRow = characterRow;
                     characterRow++;
+                }
                 break;
             case RIGHT:
             case NUMPAD6:
-                if(maze.isLegal(characterRow ,characterColoumn+1))
-                characterColoumn++;
+                if(maze.isLegal(characterRow ,characterColoumn+1)){
+                    lastCharCol = characterColoumn;
+                    characterColoumn++;
+                }
+
                 break;
             case LEFT:
             case NUMPAD4:
-                if(maze.isLegal(characterRow ,characterColoumn-1))
-                characterColoumn--;
+                if(maze.isLegal(characterRow ,characterColoumn-1)){
+                    lastCharCol = characterColoumn;
+                    characterColoumn--;
+                }
+
                 break;
 
                 //diagonals

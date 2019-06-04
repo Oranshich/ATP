@@ -37,8 +37,8 @@ public class MyViewModel extends Observable implements Observer{
         }
     }
 
-    public void generateMaze(int width, int height){
-        model.generateMaze(width, height);
+    public void generateMaze(int rows, int columns){
+        model.generateMaze(rows, columns);
     }
 
     public void moveCharacter(KeyCode movement){

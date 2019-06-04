@@ -26,7 +26,7 @@ public class Main extends Application {
         primaryStage.setTitle("My Amazing Maze!");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("MyView.fxml").openStream());
-        Scene scene = new Scene(root, 500, 500);
+        Scene scene = new Scene(root, 600, 600);
         scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         primaryStage.setScene(scene);
         //--------------
@@ -36,16 +36,17 @@ public class Main extends Application {
         view.setViewModel(viewModel);
         viewModel.addObserver(view);
         //--------------
-        SetStageCloseEvent(primaryStage);
+        SetStageCloseEvent(primaryStage,model);
         primaryStage.show();
     }
 
-    private void SetStageCloseEvent(Stage primaryStage) {
+    private void SetStageCloseEvent(Stage primaryStage, MyModel model) {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent windowEvent) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
+                    model.stopServers();
                     // ... user chose OK
                     // Close program
                 } else {

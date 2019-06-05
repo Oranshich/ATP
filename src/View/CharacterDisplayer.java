@@ -16,18 +16,17 @@ public class CharacterDisplayer extends Canvas {
     private int lastCharacterPositionColumn;
     private int [][] maze;
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
-    private MazeDisplayer mazeDisplayer;
 
     public CharacterDisplayer(){
         widthProperty().addListener(evt -> drawCharacter());
         heightProperty().addListener(evt -> drawCharacter());
     }
+
     public void setCharacterPosition(int row, int column) {
         lastCharacterPositionColumn = characterPositionColumn;
         lastCharacterPositionRow = characterPositionRow;
         characterPositionRow = row;
         characterPositionColumn = column;
-        //drawCharacter();
     }
 
 
@@ -55,16 +54,11 @@ public class CharacterDisplayer extends Canvas {
                 Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
 
                 GraphicsContext gc = getGraphicsContext2D();
-                gc.clearRect(lastCharacterPositionRow,lastCharacterPositionColumn,canvasWidth,canvasHeight);
-                System.out.println("character cell height and canvas height:" + cellHeight +", " + getHeight());
-                System.out.println("character cell width and canvas width:" + cellWidth + ", " + getWidth());
-                //gc.setFill(Color.RED);
-                //gc.fillOval(characterPositionColumn * cellHeight, characterPositionRow * cellWidth, cellHeight, cellWidth);
+                gc.clearRect(0,0,canvasWidth,canvasHeight);
                 gc.drawImage(characterImage, characterPositionColumn * cellWidth, characterPositionRow * cellHeight, cellWidth, cellHeight);
             } catch(FileNotFoundException e){
-                //e.printStackTrace();
-            }
 
+            }
         }
     }
 

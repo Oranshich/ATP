@@ -71,8 +71,6 @@ public class MazeDisplayer extends Canvas{
 
                 GraphicsContext gc = getGraphicsContext2D();
                 gc.clearRect(0, 0, getWidth(), getHeight());
-                System.out.println("maze cell height and canvas height:" + cellHeight +", " + getHeight());
-                System.out.println("maze cell width and canvas width:" + cellWidth + ", " + getWidth());
                 //Draw Maze
                 for (int i = 0; i < maze.length; i++) {
                     for (int j = 0; j < maze[i].length; j++) {

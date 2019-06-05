@@ -11,7 +11,7 @@ public interface IModel {
     int getCharacterPositionRow();
     int getCharacterPositionColumn();
     void solveMaze();
-    Solution getSolution();
+    int[][] getSolution();
     void setSavedMaze(Maze maze);
     void shutdown();
 }

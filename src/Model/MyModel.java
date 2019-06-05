@@ -1,6 +1,7 @@
 package Model;
 import Server.*;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.MazeState;
 import algorithms.search.Solution;
 import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
@@ -172,15 +173,20 @@ public class MyModel extends Observable implements IModel  {
 
     @Override
     public void solveMaze() {
-
         CommunicateWithServer_SolveSearchProblem(maze);
         setChanged();
         notifyObservers();
     }
 
     @Override
-    public Solution getSolution() {
-        return solution;
+    public int [][] getSolution() {
+        int [][] board = new int[maze.getRows()][maze.getCols()];
+        ArrayList<AState> path = solution.getSolutionPath();
+        for (AState state: path) {
+            MazeState mState = (MazeState)state;
+            board[mState.getRow()][mState.getCol()] = 1;
+        }
+        return board;
     }
 
     @Override

@@ -64,7 +64,7 @@ public class MyViewModel extends Observable implements Observer{
         model.solveMaze();
     }
 
-    public Solution getSolution(){return model.getSolution();}
+    public int [][] getSolution(){return model.getSolution();}
 
     public void setSavedMaze(Object savedMaze){
         if(savedMaze instanceof Maze){

@@ -28,22 +28,28 @@ import java.util.ResourceBundle;
 
 public class MyViewController implements IView, Observer {
 
-    @FXML
+    private int rows=0;
+    private int columns=0;
     private MyViewModel viewModel;
     public MazeDisplayer mazeDisplayer;
     public SolutionDisplayer solutionDisplayer;
-    private Stage primaryStage;
+    private static Stage primaryStage;
     private Stage mazeStage;
     private Parent root;
-    private Scene scene;
+    private static Scene scene;
+
+    @FXML
     public javafx.scene.control.Label lbl_rowsNum;
     public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.control.Button btn_winMaze;
 
-    private int rows=0;
-    private int columns=0;
+    public javafx.scene.control.Button btn_small;
+    public javafx.scene.control.Button btn_medium;
+    public javafx.scene.control.Button btn_large;
+    public javafx.scene.control.Button btn_start;
+
 
 
     public void initialize(MyViewModel viewModel, Stage primaryStage, Scene scene) {
@@ -52,7 +58,10 @@ public class MyViewController implements IView, Observer {
         this.primaryStage = primaryStage;
         bindProperties(viewModel);
         setResizeEvent(scene);
-        //btn_start.setDisable(true);
+
+        btn_solveMaze.setDisable(true);
+        btn_winMaze.setDisable(true);
+        switchScene();
     }
 
     private void bindProperties(MyViewModel viewModel) {
@@ -60,19 +69,21 @@ public class MyViewController implements IView, Observer {
         lbl_columnsNum.textProperty().bind(viewModel.characterPositionColumn);
     }
 
-    public void start(){
-
+    public void switchScene(){
         try {
-            primaryStage.setScene(scene);
-            primaryStage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            FXMLLoader fxmlLoader1 = new FXMLLoader();
+            Parent root = fxmlLoader1.load(getClass().getResource("startView.fxml").openStream());
+           //new scene
+            Scene scene1 = new Scene(root, 500, 500);
+            scene1.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            primaryStage.setScene(scene1);
+            mazeDisplayer.ControlSong("start");
             primaryStage.show();
+
         } catch (Exception e) {
 
         }
-        viewModel.generateMaze(rows, columns);
-        bindProperties(viewModel);
-        btn_solveMaze.setDisable(false);
-        btn_winMaze.setDisable(false);
+
     }
 
     public void generateMaze() {
@@ -109,6 +120,7 @@ public class MyViewController implements IView, Observer {
             Parent root = fxmlLoader.load(getClass().getResource("winView.fxml").openStream());
             Scene scene = new Scene(root, 400, 350);
             stage.setScene(scene);
+            mazeDisplayer.ControlSong("win");
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
@@ -127,46 +139,18 @@ public class MyViewController implements IView, Observer {
 
 
 
-    //Load mze from file
+    //Load maze from file
     public void load() throws IOException, ClassNotFoundException {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Open Maze from File");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
-        fc.getExtensionFilters().add(extFilter);
-        Window primaryStage = null;
-
-        File f = fc.showOpenDialog(primaryStage);
-        if (f!=null){
-            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(f));
-            Object readFromFile= inputStream.readObject();
-            viewModel.setSavedMaze(readFromFile) ;
-            inputStream.close();
-
-        }
-
+       viewModel.load();
     }
 
     //Save maze to file
     public void save() throws IOException {
-        //file chooser
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Save Maze to File");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
-        fc.getExtensionFilters().add(extFilter);
-        Window primaryStage = null;
-        File f = fc.showSaveDialog(primaryStage);
-        if(f != null) {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
-            //write the maze to file
-            oos.writeObject(viewModel.getObject());
-            oos.close();
-        }
+       viewModel.save();
     }
 
     //Exit the game
-    public void exit(){
-
-        viewModel.shutdown();
+    public void exit() {
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
@@ -246,14 +230,53 @@ public class MyViewController implements IView, Observer {
         }
     }
 
-
-    public void setRows(int rows){
-        this.rows=rows;
+    //functions for the start view
+    public void smallMaze()
+    {
+        rows=20;
+        columns=20;
+        btn_start.setDisable(false);
+        btn_small.setDisable(true);
+        //enable other buttons
+        if (btn_medium.isDisable())
+            btn_medium.setDisable(false);
+        if (btn_large.isDisable())
+            btn_large.setDisable(false);
     }
 
-    public void setColumns(int columns){
-        this.columns=columns;
+    public void mediumMaze()
+    {
+        rows=40;
+        columns=40;
+        btn_start.setDisable(false);
+        btn_medium.setDisable(true);
+        //enable other buttons
+        if (btn_large.isDisable())
+            btn_large.setDisable(false);
+        if (btn_small.isDisable())
+            btn_small.setDisable(false);
     }
 
+    public void largeMaze()
+    {
+        rows=60;
+        columns=60;
+        btn_start.setDisable(false);
+        btn_large.setDisable(true);
+        //enable other buttons
+        if (btn_medium.isDisable())
+            btn_medium.setDisable(false);
+        if (btn_small.isDisable())
+            btn_small.setDisable(false);
+    }
 
+    public void startGame(){
+        try {
+            primaryStage.setScene(scene);
+            mazeDisplayer.ControlSong("play");
+            primaryStage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            primaryStage.show();
+        } catch (Exception e) {
+        }
+    }
 }

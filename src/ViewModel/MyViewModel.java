@@ -1,4 +1,5 @@
 package ViewModel;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -65,13 +66,14 @@ public class MyViewModel extends Observable implements Observer{
 
     public Solution getSolution(){return model.getSolution();}
 
-    public void setSavedMaze(Object savedMaze){
-        if(savedMaze instanceof Maze){
-            model.setSavedMaze((Maze)savedMaze);
-        }
+
+    //save maze
+    public void save() throws IOException {
+        model.save();
     }
 
-    public void shutdown(){
-        model.shutdown();
+    //load maze
+    public void load() throws IOException, ClassNotFoundException{
+        model.load();
     }
 }

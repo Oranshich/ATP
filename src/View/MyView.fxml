@@ -82,7 +82,7 @@
    <center>
       <AnchorPane fx:id="anchorPane" prefHeight="622.0" prefWidth="800.0" BorderPane.alignment="CENTER" >
          <children>
-            <MazeDisplayer fx:id="mazeDisplayer" height="610.0" imageFileNameCharacter="resources/Images/Neta.jpg" imageFileNameWall="resources/Images/banana.jpg" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+            <MazeDisplayer fx:id="mazeDisplayer" height="610.0" imageFileNameCharacter="resources/images/Neta.jpg" imageFileNameWall="resources/images/banana.jpg" width="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
          </children>
       </AnchorPane>
    </center>

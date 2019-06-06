@@ -34,20 +34,20 @@ public class Main extends Application {
         view.initialize(viewModel,primaryStage,scene1);
         viewModel.addObserver(view);
         //--------------
-        SetStageCloseEvent(primaryStage);
-        primaryStage.show();
+        SetStageCloseEvent(primaryStage, model);
+       // primaryStage.show();
     }
 
-    private void SetStageCloseEvent(Stage primaryStage) {
+    private void SetStageCloseEvent(Stage primaryStage, MyModel model) {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent windowEvent) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to exit?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
-                    // ... user chose OK
-                    // Close program
+                    // user chose OK, close program
+                    model.stopServers();
                 } else {
-                    // ... user chose CANCEL or closed the dialog
+                    // user chose CANCEL or closed the dialog
                     windowEvent.consume();
                 }
             }

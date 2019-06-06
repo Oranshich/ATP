@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
@@ -24,11 +25,12 @@ public class MazeDisplayer extends Canvas{
     private StringProperty ImageFileNameWall = new SimpleStringProperty();
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
     private StringProperty ImageFileNameStart= new SimpleStringProperty();
-    private static MediaPlayer regular_Play;
-    private static MediaPlayer player_Win;
-    private static String music1 = MazeDisplayer.class.getResource("...").toString();
-    private static String music2 = MazeDisplayer.class.getResource("...").toString();
-
+    private static MediaPlayer start_play;
+    private static MediaPlayer maze_play;
+    private static MediaPlayer win_play;
+    private static String music1 = MazeDisplayer.class.getResource("/music/Bassa.mp3").toString();
+    private static String music2 = MazeDisplayer.class.getResource("/music/Nana Banana.mp3").toString();
+    private static String music3 = MazeDisplayer.class.getResource("/music/Bassa.mp3").toString();
 
 
     public void setMaze(int[][] maze) {
@@ -36,14 +38,14 @@ public class MazeDisplayer extends Canvas{
         redraw();
     }
 
-    public void setStartImg() {
-        Image startImage = new Image(this.getClass().getResourceAsStream(ImageFileNameStart.get()));
-        double canvasHeight = getHeight();
-        double canvasWidth = getWidth();
-        GraphicsContext gc = getGraphicsContext2D();
-        gc.clearRect(0, 0, getWidth(), getHeight());
-        gc.drawImage(startImage,0 * canvasWidth,  0* canvasHeight , canvasWidth, canvasHeight );
-    }
+//    public void setStartImg() {
+//        Image startImage = new Image(this.getClass().getResourceAsStream(ImageFileNameStart.get()));
+//        double canvasHeight = getHeight();
+//        double canvasWidth = getWidth();
+//        GraphicsContext gc = getGraphicsContext2D();
+//        gc.clearRect(0, 0, getWidth(), getHeight());
+//        gc.drawImage(startImage,0 * canvasWidth,  0* canvasHeight , canvasWidth, canvasHeight );
+//    }
 
     public void setCharacterPosition(int row, int column) {
         characterPositionRow = row;
@@ -125,8 +127,21 @@ public class MazeDisplayer extends Canvas{
     //endregion
 
     //Control songs
-    public void controlSongs(){
-
+    public static void ControlSong(String command) {
+        if (command.equals("start")) {
+            start_play = new MediaPlayer(new Media(music1));
+            start_play.play();
+        }
+        else if (command.equals("play")){
+            if (start_play!=null) start_play.stop();
+            maze_play=new MediaPlayer(new Media(music2));
+            maze_play.play();
+        }
+        else if (command.equals("win")){
+            if ( maze_play!=null) maze_play.stop();
+            win_play=new MediaPlayer(new Media(music3));
+            win_play.play();
+        }
     }
 
 

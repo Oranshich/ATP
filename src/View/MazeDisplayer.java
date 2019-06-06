@@ -59,7 +59,7 @@ public class MazeDisplayer extends Canvas{
             //setHeight(maze.length*10);
             double minSize = Math.min(getHeight(),getWidth());
             double canvasHeight = getHeight();
-            double canvasWidth = minSize;//getWidth();
+            double canvasWidth = getWidth();
             double cellHeight = canvasHeight / maze.length;
             double cellWidth = canvasWidth / maze[0].length;
 

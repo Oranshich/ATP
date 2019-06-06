@@ -26,16 +26,13 @@ public class Main extends Application {
         primaryStage.setTitle("My Amazing Maze!");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Parent root = fxmlLoader.load(getClass().getResource("MyView.fxml").openStream());
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, 700, 600);
         scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setMinHeight(600.0);
-        primaryStage.setMinWidth(600.0);
+        primaryStage.setMinHeight(550.0);
+        primaryStage.setMinWidth(500.0);
         //--------------
         MyViewController view = fxmlLoader.getController();
-        view.Initialize();
-        view.setResizeEvent(scene);
-        //view.setParent(primaryStage);
         view.setViewModel(viewModel);
         viewModel.addObserver(view);
         //--------------

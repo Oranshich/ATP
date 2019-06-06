@@ -108,8 +108,29 @@ public class MyViewController implements IView, Observer {
     }
 
     private void bindProperties(MyViewModel viewModel) {
+        btn_solveMaze.setDisable(true);
         lbl_rowsNum.textProperty().bind(viewModel.characterPositionRow);
         lbl_columnsNum.textProperty().bind(viewModel.characterPositionColumn);
+
+        pane.prefHeightProperty().bind(borderPane.heightProperty());
+        pane.prefWidthProperty().bind(borderPane.widthProperty());
+        mazeDisplayer.heightProperty().bind(pane.heightProperty());
+        mazeDisplayer.widthProperty().bind(pane.widthProperty());
+
+        characterDisplayer.heightProperty().bind(pane.heightProperty());
+        characterDisplayer.widthProperty().bind(pane.widthProperty());
+
+        solutionDisplayer.heightProperty().bind(pane.heightProperty());
+        solutionDisplayer.widthProperty().bind(pane.widthProperty());
+
+        mazeDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> mazeDisplayer.redraw()));
+        mazeDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> mazeDisplayer.redraw());
+
+        characterDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> characterDisplayer.drawCharacter()));
+        characterDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> characterDisplayer.drawCharacter());
+
+        solutionDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> solutionDisplayer.drawSolution()));
+        solutionDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> solutionDisplayer.drawSolution());
     }
 
     public void solveMaze(ActionEvent actionEvent) {
@@ -146,29 +167,6 @@ public class MyViewController implements IView, Observer {
         //btn_generateMaze.setDisable(true);
         btn_solveMaze.setDisable(false);
         viewModel.generateMaze(rows, columns);
-    }
-
-    public void Initialize() {
-        btn_solveMaze.setDisable(true);
-        pane.prefHeightProperty().bind(borderPane.heightProperty());
-        pane.prefWidthProperty().bind(borderPane.widthProperty());
-        mazeDisplayer.heightProperty().bind(pane.heightProperty());
-        mazeDisplayer.widthProperty().bind(pane.widthProperty());
-
-        characterDisplayer.heightProperty().bind(pane.heightProperty());
-        characterDisplayer.widthProperty().bind(pane.widthProperty());
-
-        solutionDisplayer.heightProperty().bind(pane.heightProperty());
-        solutionDisplayer.widthProperty().bind(pane.widthProperty());
-
-        mazeDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> mazeDisplayer.redraw()));
-        mazeDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> mazeDisplayer.redraw());
-
-        characterDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> characterDisplayer.drawCharacter()));
-        characterDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> characterDisplayer.drawCharacter());
-
-        solutionDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> solutionDisplayer.drawSolution()));
-        solutionDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> solutionDisplayer.drawSolution());
     }
 
     //Load maze from file
@@ -221,23 +219,6 @@ public class MyViewController implements IView, Observer {
         return characterPositionColumn;
     }
 
-    public void setResizeEvent(Scene scene) {
-        long width = 0;
-        long height = 0;
-        scene.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-                System.out.println("Width: " + newSceneWidth);
-                //pane.heightProperty().
-            }
-        });
-        scene.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                System.out.println("Height: " + newSceneHeight);
-            }
-        });
-    }
 
     public void About() {
         try {

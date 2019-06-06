@@ -24,16 +24,14 @@ public class Main extends Application {
         model.addObserver(viewModel);
         //--------------
         primaryStage.setTitle("My Amazing Maze!");
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getResource("MyView.fxml").openStream());
-        Scene scene = new Scene(root, 500, 500);
-        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-        primaryStage.setScene(scene);
+        FXMLLoader fxmlLoader1 = new FXMLLoader();
+        Parent root1 = fxmlLoader1.load(getClass().getResource("MyView.fxml").openStream());
+        Scene scene1 = new Scene(root1, 500, 500);
+        scene1.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+        primaryStage.setScene(scene1);
         //--------------
-        MyViewController view = fxmlLoader.getController();
-        view.setResizeEvent(scene);
-        //view.setParent(primaryStage);
-        view.setViewModel(viewModel);
+        MyViewController view = fxmlLoader1.getController();
+        view.initialize(viewModel,primaryStage,scene1);
         viewModel.addObserver(view);
         //--------------
         SetStageCloseEvent(primaryStage);

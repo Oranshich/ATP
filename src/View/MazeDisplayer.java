@@ -23,14 +23,26 @@ public class MazeDisplayer extends Canvas{
     private int characterPositionColumn = 1;
     private StringProperty ImageFileNameWall = new SimpleStringProperty();
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
+    private StringProperty ImageFileNameStart= new SimpleStringProperty();
     private static MediaPlayer regular_Play;
     private static MediaPlayer player_Win;
     private static String music1 = MazeDisplayer.class.getResource("...").toString();
     private static String music2 = MazeDisplayer.class.getResource("...").toString();
 
+
+
     public void setMaze(int[][] maze) {
         this.maze = maze;
         redraw();
+    }
+
+    public void setStartImg() {
+        Image startImage = new Image(this.getClass().getResourceAsStream(ImageFileNameStart.get()));
+        double canvasHeight = getHeight();
+        double canvasWidth = getWidth();
+        GraphicsContext gc = getGraphicsContext2D();
+        gc.clearRect(0, 0, getWidth(), getHeight());
+        gc.drawImage(startImage,0 * canvasWidth,  0* canvasHeight , canvasWidth, canvasHeight );
     }
 
     public void setCharacterPosition(int row, int column) {
@@ -46,6 +58,8 @@ public class MazeDisplayer extends Canvas{
     public int getCharacterPositionColumn() {
         return characterPositionColumn;
     }
+
+
 
     public void redraw() {
         if (maze != null) {
@@ -86,21 +100,34 @@ public class MazeDisplayer extends Canvas{
         return ImageFileNameWall.get();
     }
 
-    public void setImageFileNameWall(String imageFileNameWall) {
+    public void setImageFileNameWall(String imageFileNameWall)
+    {
         this.ImageFileNameWall.set(imageFileNameWall);
     }
 
-    public String getImageFileNameCharacter() {
+    public String getImageFileNameCharacter()
+    {
         return ImageFileNameCharacter.get();
     }
 
     public void setImageFileNameCharacter(String imageFileNameCharacter) {
         this.ImageFileNameCharacter.set(imageFileNameCharacter);
     }
+
+    public String getImageFileNameStart() {
+        return ImageFileNameStart.get();
+    }
+
+    public void setImageFileNameStart(String imageFileNameStart) {
+        this.ImageFileNameStart.set(imageFileNameStart);
+    }
+
     //endregion
 
     //Control songs
     public void controlSongs(){
 
     }
+
+
 }

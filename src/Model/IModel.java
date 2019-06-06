@@ -14,4 +14,5 @@ public interface IModel {
     Solution getSolution();
     void setSavedMaze(Maze maze);
     void shutdown();
+    Maze getObject();
 }

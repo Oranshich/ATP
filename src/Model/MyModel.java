@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
-public class MyModel extends Observable implements IModel  {
+ public class MyModel extends Observable implements IModel  {
     public Server mazeGeneratingServer;
     public Server solveMazeServer;
     private int characterRow;
@@ -168,6 +168,11 @@ public class MyModel extends Observable implements IModel  {
         stopServers();
         setChanged();
         notifyObservers("Shutdown servers");
+    }
+
+    @Override
+    public Maze getObject() {
+        return  maze;
     }
 
     private void CommunicateWithServer_MazeGenerating(int rows, int cols) {

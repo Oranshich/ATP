@@ -2,6 +2,7 @@ package View;
 
 import ViewModel.MyViewModel;
 import ViewModel.MyViewModel;
+import algorithms.mazeGenerators.Maze;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -14,9 +15,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
+import java.io.*;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,24 +32,54 @@ public class MyViewController implements IView, Observer {
     private MyViewModel viewModel;
     public MazeDisplayer mazeDisplayer;
     public SolutionDisplayer solutionDisplayer;
-    private Stage winStage;
-    private Stage loseStage;
-    public javafx.scene.control.TextField txtfld_rowsNum;
-    public javafx.scene.control.TextField txtfld_columnsNum;
-    public javafx.scene.control.Label lbl_rowsNum=null;
-    public javafx.scene.control.Label lbl_columnsNum=null;
+    private Stage primaryStage;
+    private Stage mazeStage;
+    private Parent root;
+    private Scene scene;
+    public javafx.scene.control.Label lbl_rowsNum;
+    public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.control.Button btn_winMaze;
 
+    private int rows=0;
+    private int columns=0;
 
-    public void displayMaze(int[][] maze){
-        mazeDisplayer.setMaze(maze);
-        int characterPositionRow = viewModel.getCharacterPositionRow();
-        int characterPositionColumn = viewModel.getCharacterPositionColumn();
-        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
-        this.characterPositionRow.set(characterPositionRow + "");
-        this.characterPositionColumn.set(characterPositionColumn + "");
+
+    public void initialize(MyViewModel viewModel, Stage primaryStage, Scene scene) {
+        this.viewModel = viewModel;
+        this.scene = scene;
+        this.primaryStage = primaryStage;
+        bindProperties(viewModel);
+        setResizeEvent(scene);
+        //btn_start.setDisable(true);
+    }
+
+    private void bindProperties(MyViewModel viewModel) {
+        lbl_rowsNum.textProperty().bind(viewModel.characterPositionRow);
+        lbl_columnsNum.textProperty().bind(viewModel.characterPositionColumn);
+    }
+
+    public void start(){
+
+        try {
+            primaryStage.setScene(scene);
+            primaryStage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+            primaryStage.show();
+        } catch (Exception e) {
+
+        }
+        viewModel.generateMaze(rows, columns);
+        bindProperties(viewModel);
+        btn_solveMaze.setDisable(false);
+        btn_winMaze.setDisable(false);
+    }
+
+    public void generateMaze() {
+        btn_generateMaze.setDisable(true);
+        viewModel.generateMaze(rows, columns);
+        btn_solveMaze.setDisable(false);
+        btn_winMaze.setDisable(false);
     }
 
     @Override
@@ -56,16 +90,6 @@ public class MyViewController implements IView, Observer {
         }
     }
 
-    public void setViewModel(MyViewModel viewModel) {
-        this.viewModel = viewModel;
-        bindProperties(viewModel);
-
-    }
-
-    private void bindProperties(MyViewModel viewModel) {
-        lbl_rowsNum.textProperty().bind(viewModel.characterPositionRow);
-        lbl_columnsNum.textProperty().bind(viewModel.characterPositionColumn);
-    }
 
     public void solveMaze(ActionEvent actionEvent) {
         showAlert("Solving maze..");
@@ -92,27 +116,56 @@ public class MyViewController implements IView, Observer {
         }
     }
 
-    public void generateMaze() {
-        int rows = Integer.valueOf(txtfld_rowsNum.getText());
-        int columns = Integer.valueOf(txtfld_columnsNum.getText());
-        btn_generateMaze.setDisable(true);
-        viewModel.generateMaze(rows, columns);
-        //btn_solveMaze.setDisable(false);
-        //btn_winMaze.setDisable(false);
+    public void displayMaze(int[][] maze){
+        mazeDisplayer.setMaze(maze);
+        int characterPositionRow = viewModel.getCharacterPositionRow();
+        int characterPositionColumn = viewModel.getCharacterPositionColumn();
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        this.characterPositionRow.set(characterPositionRow + "");
+        this.characterPositionColumn.set(characterPositionColumn + "");
     }
 
+
+
     //Load mze from file
-    public void load(){
+    public void load() throws IOException, ClassNotFoundException {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Open Maze from File");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
+        fc.getExtensionFilters().add(extFilter);
+        Window primaryStage = null;
+
+        File f = fc.showOpenDialog(primaryStage);
+        if (f!=null){
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(f));
+            Object readFromFile= inputStream.readObject();
+            viewModel.setSavedMaze(readFromFile) ;
+            inputStream.close();
+
+        }
 
     }
 
     //Save maze to file
-    public void save(){
-
+    public void save() throws IOException {
+        //file chooser
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save Maze to File");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
+        fc.getExtensionFilters().add(extFilter);
+        Window primaryStage = null;
+        File f = fc.showSaveDialog(primaryStage);
+        if(f != null) {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
+            //write the maze to file
+            oos.writeObject(viewModel.getObject());
+            oos.close();
+        }
     }
 
     //Exit the game
     public void exit(){
+
         viewModel.shutdown();
     }
 
@@ -192,4 +245,15 @@ public class MyViewController implements IView, Observer {
 
         }
     }
+
+
+    public void setRows(int rows){
+        this.rows=rows;
+    }
+
+    public void setColumns(int columns){
+        this.columns=columns;
+    }
+
+
 }

@@ -52,16 +52,14 @@ public class MazeDisplayer extends Canvas{
     }
 
 
-
-
-
     public void redraw() {
 
         if (maze != null) {
             //setWidth(maze[0].length*10);
             //setHeight(maze.length*10);
+            double minSize = Math.min(getHeight(),getWidth());
             double canvasHeight = getHeight();
-            double canvasWidth = getWidth();
+            double canvasWidth = minSize;//getWidth();
             double cellHeight = canvasHeight / maze.length;
             double cellWidth = canvasWidth / maze[0].length;
 
@@ -75,8 +73,9 @@ public class MazeDisplayer extends Canvas{
                 for (int i = 0; i < maze.length; i++) {
                     for (int j = 0; j < maze[i].length; j++) {
                         if (maze[i][j] == 1) {
-                            //gc.fillRect(i * cellHeight, j * cellWidth, cellHeight, cellWidth);
-                            gc.drawImage(wallImage, j * cellWidth, i*cellHeight, cellWidth, cellHeight);
+                            gc.drawImage(wallImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+                        }else{
+
                         }
                     }
                 }

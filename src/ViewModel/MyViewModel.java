@@ -33,7 +33,7 @@ public class MyViewModel extends Observable implements Observer{
             characterPositionColumnIndex = model.getCharacterPositionColumn();
             characterPositionColumn.set(characterPositionColumnIndex + "");
             setChanged();
-            notifyObservers();
+            notifyObservers(arg);
         }
     }
 

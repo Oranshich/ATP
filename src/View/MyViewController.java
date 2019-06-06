@@ -70,9 +70,24 @@ public class MyViewController implements IView, Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o == viewModel) {
+            int num = (int)arg;
+            switch (num){
+                case 1:
+                    displayMaze(viewModel.getMaze());
+                    displayCharacter(viewModel.getMaze());
+                    break;
+                case 2:
+                    displaySolution(viewModel.getMaze(),viewModel.getSolution());
+                    btn_solveMaze.setDisable(true);
+                    break;
+                case 3:
+                    displayCharacter(viewModel.getMaze());
+                    break;
+            }
+            /*
             if(isDisplayedMaze){
                 isDisplayedMaze = false;
-                displayMaze(viewModel.getMaze());
+
             }
 
             if(isDisplayedSolution){
@@ -81,8 +96,8 @@ public class MyViewController implements IView, Observer {
             }
 
 
-            displayCharacter(viewModel.getMaze());
-            btn_generateMaze.setDisable(false);
+            displayCharacter(viewModel.getMaze());*/
+           // btn_generateMaze.setDisable(false);
         }
     }
 
@@ -124,10 +139,11 @@ public class MyViewController implements IView, Observer {
     }
 
     public void generateMaze() {
+        solutionDisplayer.clearSol();
         isDisplayedMaze = true;
         int rows = 20;//Integer.valueOf(txtfld_rowsNum.getText());
         int columns = 20;//Integer.valueOf(txtfld_columnsNum.getText());
-        btn_generateMaze.setDisable(true);
+        //btn_generateMaze.setDisable(true);
         btn_solveMaze.setDisable(false);
         viewModel.generateMaze(rows, columns);
     }

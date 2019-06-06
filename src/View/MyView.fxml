@@ -79,7 +79,7 @@
          </children></VBox>
    </top>
    <left>
-      <VBox prefHeight="365.0" prefWidth="1.0" spacing="5.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="329.0" prefWidth="135.0" spacing="5.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
       <Pane fx:id="pane" prefHeight="600.0" prefWidth="600.0" style="-fx-border-width: 4; -fx-background-color: black" BorderPane.alignment="CENTER">

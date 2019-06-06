@@ -77,7 +77,7 @@ public class MyModel extends Observable implements IModel  {
         } catch (InterruptedException e){
         }
         setChanged();
-        notifyObservers();
+        notifyObservers(1);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class MyModel extends Observable implements IModel  {
             break;
         }
         setChanged();
-        notifyObservers();
+        notifyObservers(3);
     }
 
     @Override
@@ -175,7 +175,7 @@ public class MyModel extends Observable implements IModel  {
     public void solveMaze() {
         CommunicateWithServer_SolveSearchProblem(maze);
         setChanged();
-        notifyObservers();
+        notifyObservers(2);
     }
 
     @Override

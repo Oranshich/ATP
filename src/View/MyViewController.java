@@ -121,7 +121,7 @@ public class MyViewController implements IView, Observer {
     }
 
     public void generateMaze() {
-        btn_generateMaze.setDisable(true);
+        btn_generateMaze.setDisable(false);
         solutionDisplayer.clearSol();
         isDisplayedMaze = true;
         bindProperties(viewModel);
@@ -179,7 +179,7 @@ public class MyViewController implements IView, Observer {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        showAlert("Solving maze..");
+        //showAlert("Solving maze..");
         isDisplayedSolution = true;
         viewModel.solveMaze();
     }

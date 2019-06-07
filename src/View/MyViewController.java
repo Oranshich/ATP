@@ -162,8 +162,8 @@ public class MyViewController implements IView, Observer {
     public void generateMaze() {
         solutionDisplayer.clearSol();
         isDisplayedMaze = true;
-        int rows = 20;//Integer.valueOf(txtfld_rowsNum.getText());
-        int columns = 20;//Integer.valueOf(txtfld_columnsNum.getText());
+        int rows = 50;//Integer.valueOf(txtfld_rowsNum.getText());
+        int columns = 50;//Integer.valueOf(txtfld_columnsNum.getText());
         //btn_generateMaze.setDisable(true);
         btn_solveMaze.setDisable(false);
         viewModel.generateMaze(rows, columns);
@@ -192,7 +192,6 @@ public class MyViewController implements IView, Observer {
     }
 
     public void properties(ActionEvent actionEvent){
-
     }
 
     //region String Property for Binding

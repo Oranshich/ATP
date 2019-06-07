@@ -15,6 +15,9 @@ import Client.IClientStrategy ;
 import IO.MyDecompressorInputStream;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -22,7 +25,7 @@ import java.util.ArrayList;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
-public class MyModel extends Observable implements IModel  {
+ public class MyModel extends Observable implements IModel  {
     public Server mazeGeneratingServer;
     public Server solveMazeServer;
     private int characterRow;
@@ -156,6 +159,45 @@ public class MyModel extends Observable implements IModel  {
         notifyObservers(3);
     }
 
+     //Save maze to file
+     public void save() throws IOException {
+         //file chooser
+         FileChooser fc = new FileChooser();
+         fc.setTitle("Save Maze to File");
+         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
+         fc.getExtensionFilters().add(extFilter);
+         Window primaryStage = null;
+         File f = fc.showSaveDialog(primaryStage);
+         if(f != null) {
+             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
+             //write the maze to file
+             oos.writeObject(maze);
+             oos.close();
+         }
+     }
+
+     //load maze from file
+     public void load() throws IOException, ClassNotFoundException {
+         FileChooser fc = new FileChooser();
+         fc.setTitle("Open Maze from File");
+         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files", "*.txt");
+         fc.getExtensionFilters().add(extFilter);
+         Window primaryStage = null;
+         File f = fc.showOpenDialog(primaryStage);
+         if (f!=null){
+             ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(f));
+            Maze myMaze=(Maze) inputStream.readObject();
+             if (myMaze!=null) {
+                 this.maze =myMaze;
+                 inputStream.close();
+                 //characterRow = maze.getLastPlayerPosition().getRowIndex();
+                 //characterColoumn = maze.getLastPlayerPosition().getColoumnIndex();
+                 setChanged();
+                 notifyObservers();
+             }
+         }
+     }
+
     @Override
     public int[][] getMaze() {
         return  maze.getMaze();
@@ -189,20 +231,17 @@ public class MyModel extends Observable implements IModel  {
         return board;
     }
 
-    @Override
-    public void setSavedMaze(Maze maze) {
-        this.maze = maze;
-        //characterRow = maze.getLastPlayerPosition().getRowIndex();
-        //characterColoumn = maze.getLastPlayerPosition().getColoumnIndex();
-        setChanged();
-        notifyObservers();
-    }
 
     @Override
     public void shutdown() {
         stopServers();
         setChanged();
         notifyObservers("Shutdown servers");
+    }
+
+    @Override
+    public Maze getObject() {
+        return  maze;
     }
 
     private void CommunicateWithServer_MazeGenerating(int rows, int cols) {

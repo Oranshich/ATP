@@ -2,7 +2,6 @@ package View;
 
 import ViewModel.MyViewModel;
 import ViewModel.MyViewModel;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -15,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -26,15 +24,9 @@ import java.util.ResourceBundle;
 
 public class MyViewController implements IView, Observer {
 
-    public BorderPane borderPane;
-    private boolean isDisplayedMaze;
-    private boolean isDisplayedSolution = false;
     @FXML
     private MyViewModel viewModel;
-    @FXML
     public MazeDisplayer mazeDisplayer;
-    @FXML
-    public CharacterDisplayer characterDisplayer;
     public SolutionDisplayer solutionDisplayer;
     private Stage winStage;
     private Stage loseStage;
@@ -45,59 +37,22 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.control.Button btn_winMaze;
-    @FXML
-    public javafx.scene.layout.Pane pane;
-    public javafx.scene.layout.AnchorPane anchorPane;
+
 
     public void displayMaze(int[][] maze){
-        this.characterPositionRow.set(characterPositionRow + "");
-        this.characterPositionColumn.set(characterPositionColumn + "");
         mazeDisplayer.setMaze(maze);
-
-    }
-
-    public void displayCharacter(int[][] maze){
         int characterPositionRow = viewModel.getCharacterPositionRow();
         int characterPositionColumn = viewModel.getCharacterPositionColumn();
-        characterDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
-        characterDisplayer.setMaze(maze);
-    }
-
-    public void displaySolution(int[][] maze, int [][] sol){
-        solutionDisplayer.setSolution(maze, sol);
+        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
+        this.characterPositionRow.set(characterPositionRow + "");
+        this.characterPositionColumn.set(characterPositionColumn + "");
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if (o == viewModel) {
-            int num = (int)arg;
-            switch (num){
-                case 1:
-                    displayMaze(viewModel.getMaze());
-                    displayCharacter(viewModel.getMaze());
-                    break;
-                case 2:
-                    displaySolution(viewModel.getMaze(),viewModel.getSolution());
-                    btn_solveMaze.setDisable(true);
-                    break;
-                case 3:
-                    displayCharacter(viewModel.getMaze());
-                    break;
-            }
-            /*
-            if(isDisplayedMaze){
-                isDisplayedMaze = false;
-
-            }
-
-            if(isDisplayedSolution){
-                isDisplayedSolution = false;
-                displaySolution(viewModel.getMaze(),viewModel.getSolution());
-            }
-
-
-            displayCharacter(viewModel.getMaze());*/
-           // btn_generateMaze.setDisable(false);
+            displayMaze(viewModel.getMaze());
+            btn_generateMaze.setDisable(false);
         }
     }
 
@@ -108,34 +63,12 @@ public class MyViewController implements IView, Observer {
     }
 
     private void bindProperties(MyViewModel viewModel) {
-        btn_solveMaze.setDisable(true);
         lbl_rowsNum.textProperty().bind(viewModel.characterPositionRow);
         lbl_columnsNum.textProperty().bind(viewModel.characterPositionColumn);
-
-        pane.prefHeightProperty().bind(borderPane.heightProperty());
-        pane.prefWidthProperty().bind(borderPane.widthProperty());
-        mazeDisplayer.heightProperty().bind(pane.heightProperty());
-        mazeDisplayer.widthProperty().bind(pane.widthProperty());
-
-        characterDisplayer.heightProperty().bind(pane.heightProperty());
-        characterDisplayer.widthProperty().bind(pane.widthProperty());
-
-        solutionDisplayer.heightProperty().bind(pane.heightProperty());
-        solutionDisplayer.widthProperty().bind(pane.widthProperty());
-
-        mazeDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> mazeDisplayer.redraw()));
-        mazeDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> mazeDisplayer.redraw());
-
-        characterDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> characterDisplayer.drawCharacter()));
-        characterDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> characterDisplayer.drawCharacter());
-
-        solutionDisplayer.heightProperty().addListener(((observable, oldValue, newValue) -> solutionDisplayer.drawSolution()));
-        solutionDisplayer.widthProperty().addListener((observable, oldValue, newValue) -> solutionDisplayer.drawSolution());
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        isDisplayedSolution = true;
-        viewModel.solveMaze();
+        showAlert("Solving maze..");
     }
 
     private void showAlert(String alertMessage) {
@@ -160,16 +93,15 @@ public class MyViewController implements IView, Observer {
     }
 
     public void generateMaze() {
-        solutionDisplayer.clearSol();
-        isDisplayedMaze = true;
-        int rows = 50;//Integer.valueOf(txtfld_rowsNum.getText());
-        int columns = 50;//Integer.valueOf(txtfld_columnsNum.getText());
-        //btn_generateMaze.setDisable(true);
-        btn_solveMaze.setDisable(false);
+        int rows = Integer.valueOf(txtfld_rowsNum.getText());
+        int columns = Integer.valueOf(txtfld_columnsNum.getText());
+        btn_generateMaze.setDisable(true);
         viewModel.generateMaze(rows, columns);
+        //btn_solveMaze.setDisable(false);
+        //btn_winMaze.setDisable(false);
     }
 
-    //Load maze from file
+    //Load mze from file
     public void load(){
 
     }
@@ -181,9 +113,7 @@ public class MyViewController implements IView, Observer {
 
     //Exit the game
     public void exit(){
-
-        viewModel.shutdown();
-        Platform.exit();
+        //viewModel.shutdown();
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
@@ -192,15 +122,13 @@ public class MyViewController implements IView, Observer {
     }
 
     public void properties(ActionEvent actionEvent){
+
     }
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
 
     public StringProperty characterPositionColumn = new SimpleStringProperty();
-
-    public StringProperty mazeRowSize = new SimpleStringProperty();
-    public StringProperty mazeColSize = new SimpleStringProperty();
 
     public String getCharacterPositionRow() {
         return characterPositionRow.get();
@@ -218,6 +146,22 @@ public class MyViewController implements IView, Observer {
         return characterPositionColumn;
     }
 
+    public void setResizeEvent(Scene scene) {
+        long width = 0;
+        long height = 0;
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                System.out.println("Width: " + newSceneWidth);
+            }
+        });
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                System.out.println("Height: " + newSceneHeight);
+            }
+        });
+    }
 
     public void About() {
         try {

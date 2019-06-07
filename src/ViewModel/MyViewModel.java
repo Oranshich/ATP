@@ -1,4 +1,5 @@
 package ViewModel;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -52,6 +53,8 @@ public class MyViewModel extends Observable implements Observer{
 
     public int getLastCharCol(){return model.getCharacterPositionColumn();}
 
+    public Maze getObject(){ return model.getObject();}
+
     public int getCharacterPositionRow() {
         return characterPositionRowIndex;
     }
@@ -66,13 +69,14 @@ public class MyViewModel extends Observable implements Observer{
 
     public int [][] getSolution(){return model.getSolution();}
 
-    public void setSavedMaze(Object savedMaze){
-        if(savedMaze instanceof Maze){
-            model.setSavedMaze((Maze)savedMaze);
-        }
+
+    //save maze
+    public void save() throws IOException {
+        model.save();
     }
 
-    public void shutdown(){
-        model.shutdown();
+    //load maze
+    public void load() throws IOException, ClassNotFoundException{
+        model.load();
     }
 }

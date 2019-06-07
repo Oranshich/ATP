@@ -4,6 +4,8 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyCode;
 
+import java.io.IOException;
+
 public interface IModel {
     void generateMaze(int width, int height);
     void moveCharacter(KeyCode movement);
@@ -11,7 +13,8 @@ public interface IModel {
     int getCharacterPositionRow();
     int getCharacterPositionColumn();
     void solveMaze();
-    Solution getSolution();
-    void setSavedMaze(Maze maze);
+    public int [][] getSolution();
     void shutdown();
+    void save() throws IOException;
+    void load() throws IOException, ClassNotFoundException;
 }

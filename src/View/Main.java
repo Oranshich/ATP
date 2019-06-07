@@ -24,38 +24,37 @@ public class Main extends Application {
         model.addObserver(viewModel);
         //--------------
         primaryStage.setTitle("My Amazing Maze!");
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getResource("MyView.fxml").openStream());
-        Scene scene = new Scene(root, 500, 500);
-        scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-        primaryStage.setScene(scene);
+        FXMLLoader fxmlLoader1 = new FXMLLoader();
+        Parent root1 = fxmlLoader1.load(getClass().getResource("MyView.fxml").openStream());
+        Scene scene1 = new Scene(root1, 700, 600);
+        scene1.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+        primaryStage.setScene(scene1);
+        primaryStage.setMinHeight(550.0);
+        primaryStage.setMinWidth(500.0);
         //--------------
-        MyViewController view = fxmlLoader.getController();
-        view.setResizeEvent(scene);
-        //view.setParent(primaryStage);
-        view.setViewModel(viewModel);
+        MyViewController view = fxmlLoader1.getController();
+        view.initialize(viewModel,primaryStage,scene1);
         viewModel.addObserver(view);
         //--------------
-        SetStageCloseEvent(primaryStage);
-        primaryStage.show();
+        SetStageCloseEvent(primaryStage, model);
+       // primaryStage.show();
     }
 
-    private void SetStageCloseEvent(Stage primaryStage) {
+    private void SetStageCloseEvent(Stage primaryStage, MyModel model) {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent windowEvent) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to exit?");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK){
-                    // ... user chose OK
-                    // Close program
+                    // user chose OK, close program
+                    model.stopServers();
                 } else {
-                    // ... user chose CANCEL or closed the dialog
+                    // user chose CANCEL or closed the dialog
                     windowEvent.consume();
                 }
             }
         });
     }
-
 
     public static void main(String[] args) {
         launch(args);

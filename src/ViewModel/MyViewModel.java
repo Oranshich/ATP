@@ -15,14 +15,14 @@ import javafx.scene.input.KeyCode;
 public class MyViewModel extends Observable implements Observer{
 
     private IModel model;
-
     private int characterPositionRowIndex;
     private int characterPositionColumnIndex;
-
+    //string properties
     public StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
     public StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
 
-    public MyViewModel(IModel model){
+    public MyViewModel(IModel model)
+    {
         this.model = model;
     }
 
@@ -38,6 +38,10 @@ public class MyViewModel extends Observable implements Observer{
         }
     }
 
+    public void solveMaze(){
+        model.solveMaze();
+    }
+
     public void generateMaze(int rows, int columns){
         model.generateMaze(rows, columns);
     }
@@ -49,11 +53,6 @@ public class MyViewModel extends Observable implements Observer{
     public int[][] getMaze() {
         return model.getMaze();
     }
-    public int getLastCharRow(){return model.getCharacterPositionRow();}
-
-    public int getLastCharCol(){return model.getCharacterPositionColumn();}
-
-    public Maze getObject(){ return model.getObject();}
 
     public int getCharacterPositionRow() {
         return characterPositionRowIndex;
@@ -63,12 +62,11 @@ public class MyViewModel extends Observable implements Observer{
         return characterPositionColumnIndex;
     }
 
-    public void solveMaze(){
-        model.solveMaze();
-    }
-
     public int [][] getSolution(){return model.getSolution();}
 
+    public int getLastCharRow(){return model.getCharacterPositionRow();}
+
+    public int getLastCharCol(){return model.getCharacterPositionColumn();}
 
     //save maze
     public void save() throws IOException {
@@ -79,4 +77,5 @@ public class MyViewModel extends Observable implements Observer{
     public void load() throws IOException, ClassNotFoundException{
         model.load();
     }
+     public void shutDown(){ model.shutdown();}
 }

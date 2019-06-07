@@ -15,8 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,6 +41,7 @@ public class MyViewController implements IView, Observer {
     private Stage mazeStage;
     private Parent root;
     private static Scene scene;
+    public BorderPane startPane;
     public BorderPane borderPane;
     private boolean isDisplayedMaze;
     private boolean isDisplayedSolution = false;
@@ -51,7 +53,7 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
-    public javafx.scene.control.Button btn_winMaze;
+   // public javafx.scene.control.Button btn_winMaze;
 
     public javafx.scene.control.Button btn_small;
     public javafx.scene.control.Button btn_medium;
@@ -70,7 +72,6 @@ public class MyViewController implements IView, Observer {
         this.primaryStage = primaryStage;
         //setResizeEvent(scene);
         btn_solveMaze.setDisable(true);
-        btn_winMaze.setDisable(true);
         switchScene();
     }
 
@@ -106,13 +107,18 @@ public class MyViewController implements IView, Observer {
      */
     public void switchScene() {
         try {
+//            BackgroundImage myBI= new BackgroundImage(new Image("/images/back.jpg",32,32,false,true),
+//                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+//                    BackgroundSize.DEFAULT);
+
             FXMLLoader fxmlLoader1 = new FXMLLoader();
             Parent root = fxmlLoader1.load(getClass().getResource("startView.fxml").openStream());
             //new scene
-            Scene scene1 = new Scene(root, 500, 500);
-            scene1.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+            Scene scene1 = new Scene(root, 780, 585);
+            scene1.getStylesheets().add(getClass().getResource("ViewStyle2.css").toExternalForm());
             primaryStage.setScene(scene1);
             mazeDisplayer.ControlSong("start");
+           // startPane.setBackground(new Background(myBI));
             primaryStage.show();
 
         } catch (Exception e) {
@@ -127,7 +133,6 @@ public class MyViewController implements IView, Observer {
         bindProperties(viewModel);
         viewModel.generateMaze(rows, columns);
         btn_solveMaze.setDisable(false);
-        btn_winMaze.setDisable(false);
     }
 
     public void displayMaze(int[][] maze) {
@@ -145,6 +150,7 @@ public class MyViewController implements IView, Observer {
 
     public void displaySolution(int[][] maze, int[][] sol) {
         solutionDisplayer.setSolution(maze, sol);
+        btn_generateMaze.setDisable(false);
     }
 
 
@@ -179,7 +185,6 @@ public class MyViewController implements IView, Observer {
     }
 
     public void solveMaze(ActionEvent actionEvent) {
-        showAlert("Solving maze..");
         isDisplayedSolution = true;
         viewModel.solveMaze();
     }

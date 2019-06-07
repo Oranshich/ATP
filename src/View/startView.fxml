@@ -55,9 +55,9 @@
       <VBox prefHeight="400.0" prefWidth="203.0" spacing="5.0" BorderPane.alignment="CENTER" />
    </left>
    <center>
-      <Pane prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="TOP_LEFT">
+      <Pane prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane layoutX="33.0" prefHeight="90.0" prefWidth="122.0">
+            <GridPane layoutX="33.0" prefHeight="90.0" prefWidth="122.0" alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.71429443359375" minWidth="10.0" prefWidth="90.00000762939453" />
               </columnConstraints>

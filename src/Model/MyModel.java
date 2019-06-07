@@ -1,6 +1,7 @@
 package Model;
 import Server.*;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.MazeState;
 import algorithms.search.Solution;
 import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
@@ -28,10 +29,11 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
     public Server mazeGeneratingServer;
     public Server solveMazeServer;
     private int characterRow;
-    private int characterColoumn;
+    private int characterColumn;
     private Maze maze = null;
     private Solution solution = null;
-    //private ExecutorService threadPool = Executors.newCachedThreadPool();
+    private int lastCharRow;
+    private int lastCharCol;
 
     public MyModel() {
         mazeGeneratingServer = new Server(5400,1000,new ServerStrategyGenerateMaze());
@@ -50,17 +52,16 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
     @Override
     public void generateMaze(int rows, int columns) {
-
         try{
             CommunicateWithServer_MazeGenerating(rows,columns);
             Thread.sleep(1000);
             characterRow = maze.getStartPosition().getRowIndex();
-            characterColoumn = maze.getStartPosition().getColumnIndex();
+            characterColumn = maze.getStartPosition().getColumnIndex();
 
         } catch (InterruptedException e){
         }
         setChanged();
-        notifyObservers();
+        notifyObservers(1);
     }
 
     @Override
@@ -68,65 +69,121 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
         switch (movement){
             case UP:
             case NUMPAD8:
-                if(maze.isLegal(characterRow -1,characterColoumn))
+                if(maze.isLegal(characterRow -1,characterColumn))
                     characterRow--;
                 break;
             case DOWN:
             case NUMPAD2:
-                if(maze.isLegal(characterRow +1,characterColoumn))
+                if(maze.isLegal(characterRow +1,characterColumn))
                     characterRow++;
                 break;
             case RIGHT:
             case NUMPAD6:
-                if(maze.isLegal(characterRow ,characterColoumn+1))
-                characterColoumn++;
+                if(maze.isLegal(characterRow ,characterColumn+1))
+                characterColumn++;
                 break;
             case LEFT:
             case NUMPAD4:
-                if(maze.isLegal(characterRow ,characterColoumn-1))
-                characterColoumn--;
+                if(maze.isLegal(characterRow ,characterColumn-1))
+                characterColumn--;
                 break;
 
                 //diagonals
             //down right
             case NUMPAD3:
-                if(maze.isLegal(characterRow+1 ,characterColoumn+1)) {
-                    if((maze.isLegal(characterRow+1 ,characterColoumn))|| (maze.isLegal(characterRow,characterColoumn+1))) {
-                        characterColoumn++;
+                if(maze.isLegal(characterRow+1 ,characterColumn+1)) {
+                    if((maze.isLegal(characterRow+1 ,characterColumn))|| (maze.isLegal(characterRow,characterColumn+1))) {
+                        characterColumn++;
                         characterRow++;
                     }
                 }
                 break;
                 //down left
             case NUMPAD1:
-                if(maze.isLegal(characterRow+1 ,characterColoumn-1)) {
-                    if((maze.isLegal(characterRow ,characterColoumn+1))|| (maze.isLegal(characterRow ,characterColoumn-1))) {
-                        characterColoumn--;
+                if(maze.isLegal(characterRow+1 ,characterColumn-1)) {
+                    if((maze.isLegal(characterRow ,characterColumn+1))|| (maze.isLegal(characterRow ,characterColumn-1))) {
+                        characterColumn--;
                         characterRow++;
                     }
                 }
                 break;
                 //up right
             case NUMPAD9:
-                if(maze.isLegal(characterRow-1 ,characterColoumn+1)) {
-                    if((maze.isLegal(characterRow-1 ,characterColoumn))|| (maze.isLegal(characterRow ,characterColoumn+1))) {
-                        characterColoumn++;
+                if(maze.isLegal(characterRow-1 ,characterColumn+1)) {
+                    if((maze.isLegal(characterRow-1 ,characterColumn))|| (maze.isLegal(characterRow ,characterColumn+1))) {
+                        characterColumn++;
                         characterRow--;
                     }
                 }
                 break;
                 //up left
             case NUMPAD7:
-                 if(maze.isLegal(characterRow-1 ,characterColoumn-1)) {
-                     if((maze.isLegal(characterRow-1 ,characterColoumn))|| (maze.isLegal(characterRow ,characterColoumn-1))) {
-                         characterColoumn--;
+                 if(maze.isLegal(characterRow-1 ,characterColumn-1)) {
+                     if((maze.isLegal(characterRow-1 ,characterColumn))|| (maze.isLegal(characterRow ,characterColumn-1))) {
+                         characterColumn--;
                          characterRow--;
                      }
                   }
             break;
         }
         setChanged();
-        notifyObservers();
+        notifyObservers(3);
+    }
+
+    @Override
+    public int[][] getMaze() {
+        return  maze.getMaze();
+    }
+
+    @Override
+    public int getCharacterPositionRow() {
+        return characterRow;
+    }
+
+    @Override
+    public int getCharacterPositionColumn() {
+        return characterColumn;
+    }
+
+     public int getLastCharRow() {
+         return lastCharRow;
+     }
+
+     public void setLastCharRow(int lastCharRow) {
+         this.lastCharRow = lastCharRow;
+     }
+
+     public int getLastCharCol() {
+         return lastCharCol;
+     }
+
+     public void setLastCharCol(int lastCharCol) {
+         this.lastCharCol = lastCharCol;
+     }
+
+     @Override
+     public void solveMaze() {
+         CommunicateWithServer_SolveSearchProblem(maze);
+         setChanged();
+         notifyObservers(2);
+     }
+
+     @Override
+     public int [][] getSolution() {
+         int [][] board = new int[maze.getRows()][maze.getCols()];
+         ArrayList<AState> path = solution.getSolutionPath();
+         for (AState state: path) {
+             MazeState mState = (MazeState)state;
+             board[mState.getRow()][mState.getCol()] = 1;
+         }
+         return board;
+     }
+
+    @Override
+    public void shutdown() {
+        stopServers();
+        setChanged();
+        notifyObservers("Shutdown servers");
     }
 
      //Save maze to file
@@ -156,60 +213,20 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
          File f = fc.showOpenDialog(primaryStage);
          if (f!=null){
              ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(f));
-            Maze myMaze=(Maze) inputStream.readObject();
+             Maze myMaze=(Maze) inputStream.readObject();
              if (myMaze!=null) {
                  this.maze =myMaze;
                  inputStream.close();
                  //characterRow = maze.getLastPlayerPosition().getRowIndex();
-                 //characterColoumn = maze.getLastPlayerPosition().getColoumnIndex();
+                 //characterColumn = maze.getLastPlayerPosition().getColoumnIndex();
                  setChanged();
-                 notifyObservers();
+                 notifyObservers(1);
              }
          }
      }
 
-    @Override
-    public int[][] getMaze() {
-        return  maze.getMaze();
-    }
 
-    @Override
-    public int getCharacterPositionRow() {
-        return characterRow;
-    }
-
-    @Override
-    public int getCharacterPositionColumn() {
-        return characterColoumn;
-    }
-
-    @Override
-    public void solveMaze() {
-
-        CommunicateWithServer_SolveSearchProblem(maze);
-        setChanged();
-        notifyObservers();
-    }
-
-    @Override
-    public Solution getSolution() {
-        return solution;
-    }
-
-
-    @Override
-    public void shutdown() {
-        stopServers();
-        setChanged();
-        notifyObservers("Shutdown servers");
-    }
-
-    @Override
-    public Maze getObject() {
-        return  maze;
-    }
-
-    private void CommunicateWithServer_MazeGenerating(int rows, int cols) {
+     private void CommunicateWithServer_MazeGenerating(int rows, int cols) {
         try {
             Client client = new Client(InetAddress.getLocalHost(), 5400, new IClientStrategy() {
                 @Override
@@ -252,9 +269,6 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
-
-                        //Print Maze Solution retrieved from the server
-                       // System.out.println(String.format("Solution steps: %s", mazeSolution));
                         ArrayList<AState> mazeSolutionSteps = mazeSolution.getSolutionPath();
                         for (int i = 0; i < mazeSolutionSteps.size(); i++) {
                          //   System.out.println(String.format("%s. %s", i, mazeSolutionSteps.get(i).toString()));

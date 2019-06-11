@@ -38,6 +38,8 @@ public class MyViewModel extends Observable implements Observer{
         }
     }
 
+    public void setSolutionNull(){ model.setSolutionNull();}
+
     public void solveMaze(){
         model.solveMaze();
     }
@@ -55,11 +57,11 @@ public class MyViewModel extends Observable implements Observer{
     }
 
     public int getCharacterPositionRow() {
-        return characterPositionRowIndex;
+        return model.getCharacterPositionRow();
     }
 
     public int getCharacterPositionColumn() {
-        return characterPositionColumnIndex;
+        return model.getCharacterPositionColumn();
     }
 
     public int [][] getSolution(){return model.getSolution();}

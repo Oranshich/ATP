@@ -17,4 +17,5 @@ public interface IModel {
     void shutdown();
     void save() throws IOException;
     void load() throws IOException, ClassNotFoundException;
+    void setSolutionNull();
 }

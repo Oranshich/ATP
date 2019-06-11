@@ -170,13 +170,20 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
      @Override
      public int [][] getSolution() {
-         int [][] board = new int[maze.getRows()][maze.getCols()];
-         ArrayList<AState> path = solution.getSolutionPath();
-         for (AState state: path) {
-             MazeState mState = (MazeState)state;
-             board[mState.getRow()][mState.getCol()] = 1;
-         }
+        int [][] board = null;
+        if(solution != null){
+            board = new int[maze.getRows()][maze.getCols()];
+            ArrayList<AState> path = solution.getSolutionPath();
+            for (AState state: path) {
+                MazeState mState = (MazeState)state;
+                board[mState.getRow()][mState.getCol()] = 1;
+            }
+        }
          return board;
+     }
+
+     public  void setSolutionNull(){
+        solution = null;
      }
 
     @Override
@@ -196,6 +203,7 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
          Window primaryStage = null;
          File f = fc.showSaveDialog(primaryStage);
          if(f != null) {
+             maze.setPlayerPosition(characterRow,characterColumn);
              ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
              //write the maze to file
              oos.writeObject(maze);
@@ -216,11 +224,13 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
              Maze myMaze=(Maze) inputStream.readObject();
              if (myMaze!=null) {
                  this.maze =myMaze;
+                 setSolutionNull();
                  inputStream.close();
-                 //characterRow = maze.getLastPlayerPosition().getRowIndex();
-                 //characterColumn = maze.getLastPlayerPosition().getColoumnIndex();
+                 maze.setPlayerPosition(myMaze.getPlayerPosition().getRowIndex(),myMaze.getPlayerPosition().getColumnIndex());
+                 characterRow = myMaze.getPlayerPosition().getRowIndex();
+                 characterColumn = myMaze.getPlayerPosition().getColumnIndex();
                  setChanged();
-                 notifyObservers(1);
+                 notifyObservers(4);
              }
          }
      }

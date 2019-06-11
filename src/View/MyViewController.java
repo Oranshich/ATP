@@ -15,9 +15,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.input.ScrollEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -33,6 +35,7 @@ public class MyViewController implements IView, Observer {
 
     private static int rows = 0;
     private static int columns = 0;
+    public MenuItem btn_Save;
     private MyViewModel viewModel;
     public MazeDisplayer mazeDisplayer;
     public SolutionDisplayer solutionDisplayer;
@@ -72,6 +75,7 @@ public class MyViewController implements IView, Observer {
         this.primaryStage = primaryStage;
         //setResizeEvent(scene);
         btn_solveMaze.setDisable(true);
+        btn_Save.setDisable(true);
         switchScene();
     }
 
@@ -126,13 +130,48 @@ public class MyViewController implements IView, Observer {
         }
     }
 
+    public void setScroll(ScrollEvent e){
+
+            double deltaY = e.getDeltaY();
+
+            if(deltaY > 0){
+                mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);
+                characterDisplayer.setZoom(characterDisplayer.getZoom()*1.1);
+                solutionDisplayer.setZoom(solutionDisplayer.getZoom()*1.1);
+                //mazeDisplayer.setScaleY(mazeDisplayer.getScaleY()*1.1);
+                //mazeDisplayer.setHeight(mazeDisplayer.getCanvasHeight()*1.1);
+                //mazeDisplayer.setResize(mazeDisplayer.getHeight()*1.1,mazeDisplayer.getWidth()*1.1);
+            }
+            else{
+//                mazeDisplayer.setScaleX(mazeDisplayer.getScaleX()/1.1);
+                mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
+                characterDisplayer.setZoom(characterDisplayer.getZoom()/1.1);
+                solutionDisplayer.setZoom(solutionDisplayer.getZoom()/1.1);
+//                mazeDisplayer.setScaleY(mazeDisplayer.getScaleY()/1.1);
+                //mazeDisplayer.setResize(mazeDisplayer.getHeight()/1.1,mazeDisplayer.getWidth()/1.1);
+                //mazeDisplayer.setHeight(mazeDisplayer.getCanvasHeight()/1.1);
+                //mazeDisplayer.setWidth(mazeDisplayer.getCanvasWidth()/1.1);
+            }
+
+        displayMaze(viewModel.getMaze());
+        displayCharacter(viewModel.getMaze());
+        if(viewModel.getSolution() != null){
+            displaySolution(viewModel.getMaze(),viewModel.getSolution());
+        }
+
+    }
+
     public void generateMaze() {
         btn_generateMaze.setDisable(true);
         solutionDisplayer.clearSol();
         isDisplayedMaze = true;
+
+        //Maybe move it to initialize
         bindProperties(viewModel);
         viewModel.generateMaze(rows, columns);
         btn_solveMaze.setDisable(false);
+        btn_Save.setDisable(false);
+        viewModel.setSolutionNull();
     }
 
     public void displayMaze(int[][] maze) {
@@ -170,6 +209,17 @@ public class MyViewController implements IView, Observer {
                 case 3:
                     displayCharacter(viewModel.getMaze());
                     break;
+                //Load
+                case 4:
+
+                    if(btn_solveMaze.isDisable()){
+                        bindProperties(viewModel);
+                        btn_solveMaze.setDisable(false);
+                        btn_Save.setDisable(false);
+                    }
+                    solutionDisplayer.clearSol();
+                    displayMaze(viewModel.getMaze());
+                    displayCharacter(viewModel.getMaze());
             }
             /*
             if(isDisplayedMaze){

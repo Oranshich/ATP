@@ -17,11 +17,21 @@ public class SolutionDisplayer extends Canvas {
     private int characterPositionColumn;
     private StringProperty ImageFileNameSolution = new SimpleStringProperty();
     private GraphicsContext gc;
+    private double zoom = 1;
+
     public void setCharacterPosition(int row, int column) {
         characterPositionRow = row;
         characterPositionColumn = column;
     }
 
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
     public String getImageFileNameSolution() {
         return ImageFileNameSolution.get();
     }
@@ -44,8 +54,8 @@ public class SolutionDisplayer extends Canvas {
 
                 double canvasHeight = super.getHeight();
                 double canvasWidth = super.getWidth();
-                double cellHeight = canvasHeight / maze.length;
-                double cellWidth = canvasWidth / maze[0].length;
+                double cellHeight = (canvasHeight / maze.length)*zoom;
+                double cellWidth = canvasWidth / maze[0].length*zoom;
                 Image solutionImage = new Image(new FileInputStream(ImageFileNameSolution.get()));
 
                 gc.clearRect(0,0,canvasWidth,canvasHeight);

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="borderPane" onKeyPressed="#KeyPressed" prefHeight="560.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane fx:id="borderPane" onKeyPressed="#KeyPressed" onScroll="#setScroll" prefHeight="560.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <top>
         <VBox prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
@@ -24,7 +24,7 @@
                         <Menu mnemonicParsing="false" text="File">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#generateMaze" text="New" />
-                                <MenuItem mnemonicParsing="false" onAction="#save" text="Save" />
+                                <MenuItem fx:id="btn_Save" mnemonicParsing="false" onAction="#save" text="Save" />
                                 <MenuItem mnemonicParsing="false" onAction="#load" text="Load" />
                             </items>
                         </Menu>
@@ -57,8 +57,7 @@
             <children>
                 <Button fx:id="btn_generateMaze" mnemonicParsing="false" onAction="#generateMaze" prefHeight="25.0" prefWidth="167.0" text="Generate Maze" />
                 <Button fx:id="btn_solveMaze" mnemonicParsing="false" onAction="#solveMaze" prefHeight="25.0" prefWidth="167.0" text="Solve Maze" />
-                <Button fx:id="btn_winMaze" mnemonicParsing="false" onAction="#wonGame" prefHeight="25.0" prefWidth="167.0" text="Win Game" />
-                <GridPane>
+                <GridPane prefHeight="90.0" prefWidth="172.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -71,8 +70,8 @@
                     <children>
                         <Label text="Character row:" />
                         <Label fx:id="lbl_rowsNum" prefHeight="17.0" prefWidth="46.0" text="${controller.characterPositionRow}" GridPane.columnIndex="1" />
-                        <Label text="Character column:" GridPane.rowIndex="1" />
-                        <Label fx:id="lbl_columnsNum" prefHeight="17.0" prefWidth="41.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label prefHeight="27.0" prefWidth="140.0" text="Character column:" GridPane.rowIndex="1" />
+                        <Label fx:id="lbl_columnsNum" prefHeight="27.0" prefWidth="37.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                     </children>
                 </GridPane>
             </children></VBox>
@@ -81,8 +80,8 @@
         <Pane fx:id="pane" prefHeight="600.0" prefWidth="600.0" style="-fx-border-width: 4; -fx-background-color: black" BorderPane.alignment="CENTER">
             <children>
                 <MazeDisplayer fx:id="mazeDisplayer" height="500.0" imageFileNameWall="resources/images/banana.jpg" width="600.0" />
+                <SolutionDisplayer fx:id="solutionDisplayer" height="500.0" imageFileNameSolution="resources/images/mic.jpg" width="600.0" />
                 <CharacterDisplayer fx:id="characterDisplayer" height="500.0" imageFileNameCharacter="resources/images/Neta.jpg" width="600.0" />
-                <SolutionDisplayer fx:id="solutionDisplayer" height="500.0" imageFileNameSolution="resources/images/win.jpg" width="600.0" />
             </children>
         </Pane>
     </center>

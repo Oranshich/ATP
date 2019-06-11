@@ -27,6 +27,15 @@ public class MazeDisplayer extends Canvas{
     private static String music1 = MazeDisplayer.class.getResource("/music/Bassa.mp3").toString();
     private static String music2 = MazeDisplayer.class.getResource("/music/Nana Banana.mp3").toString();
     private static String music3 = MazeDisplayer.class.getResource("/music/Bassa.mp3").toString();
+    private double zoom = 1;
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
 
     public double getCanvasHeight() {
         return canvasHeight;
@@ -60,8 +69,8 @@ public class MazeDisplayer extends Canvas{
             double minSize = Math.min(getHeight(),getWidth());
             double canvasHeight = getHeight();
             double canvasWidth = getWidth();
-            double cellHeight = canvasHeight / maze.length;
-            double cellWidth = canvasWidth / maze[0].length;
+            double cellHeight = canvasHeight / maze.length*zoom;
+            double cellWidth = canvasWidth / maze[0].length*zoom;
 
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));

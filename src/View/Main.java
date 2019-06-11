@@ -31,6 +31,7 @@ public class Main extends Application {
         primaryStage.setScene(scene1);
         primaryStage.setMinHeight(550.0);
         primaryStage.setMinWidth(500.0);
+
         //--------------
         MyViewController view = fxmlLoader1.getController();
         view.initialize(viewModel,primaryStage,scene1);

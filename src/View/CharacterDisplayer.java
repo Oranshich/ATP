@@ -16,6 +16,15 @@ public class CharacterDisplayer extends Canvas {
     private int lastCharacterPositionColumn;
     private int [][] maze;
     private StringProperty ImageFileNameCharacter = new SimpleStringProperty();
+    private double zoom =1;
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
 
     public CharacterDisplayer(){
         widthProperty().addListener(evt -> drawCharacter());
@@ -49,8 +58,8 @@ public class CharacterDisplayer extends Canvas {
 
                 double canvasHeight = super.getHeight();
                 double canvasWidth = super.getWidth();
-                double cellHeight = canvasHeight / maze.length;
-                double cellWidth = canvasWidth / maze[0].length;
+                double cellHeight = canvasHeight / maze.length*zoom;
+                double cellWidth = canvasWidth / maze[0].length*zoom;
                 Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
 
                 GraphicsContext gc = getGraphicsContext2D();

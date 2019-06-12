@@ -313,4 +313,12 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
      public int getGoalRow(){ return maze.getGoalPosition().getRowIndex();}
 
      public int getGoalColumn(){ return maze.getGoalPosition().getColumnIndex();}
+
+     @Override
+     public void setToZero() {
+         characterColumn = 0;
+         characterRow = 0;
+         setChanged();
+         notifyObservers(3);
+     }
  }

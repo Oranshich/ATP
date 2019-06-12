@@ -84,4 +84,8 @@ public class MyViewModel extends Observable implements Observer{
         model.load();
     }
      public void shutDown(){ model.shutdown();}
+
+    public void setToZero() {
+        model.setToZero();
+    }
 }

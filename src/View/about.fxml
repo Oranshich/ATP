@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.DialogPane?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <children>
-      <Label text="About" />
-      <DialogPane prefHeight="220.0" prefWidth="220.0" />
+      <TextArea prefHeight="400.0" prefWidth="600.0" text="Created by two software engineers: Oran shichman and Chen Galed. &#10;The Algorithm which create the maze is DFS algorithm" />
    </children>
 </AnchorPane>

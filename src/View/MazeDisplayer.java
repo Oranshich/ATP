@@ -33,6 +33,7 @@ public class MazeDisplayer extends Canvas{
     private double canvasWidth;
     private int goalRow;
     private int goalColumn;
+    private GraphicsContext gc;
 
     public MazeDisplayer() {
         // Redraw canvas when size changes.
@@ -44,6 +45,7 @@ public class MazeDisplayer extends Canvas{
         this.maze = maze;
         this.goalRow=goalRow;
         this.goalColumn=goalColumn;
+        gc = getGraphicsContext2D();
         redraw();
     }
 
@@ -62,7 +64,7 @@ public class MazeDisplayer extends Canvas{
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
                 Image endImage = new Image(new FileInputStream(ImageFileNameEnd.get()));
 
-                GraphicsContext gc = getGraphicsContext2D();
+                //GraphicsContext gc = getGraphicsContext2D();
                 gc.clearRect(0, 0, getWidth(), getHeight());
                 //Draw Maze
                 for (int i = 0; i < maze.length; i++) {
@@ -84,7 +86,7 @@ public class MazeDisplayer extends Canvas{
 
     public void clear() {
         if (maze != null) {
-            GraphicsContext gc = getGraphicsContext2D();
+            //GraphicsContext gc = getGraphicsContext2D();
             gc.clearRect(0, 0, getWidth(), getHeight());
         }
     }

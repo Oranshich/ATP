@@ -3,7 +3,6 @@ import Server.*;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.MazeState;
 import algorithms.search.Solution;
-import com.sun.org.apache.xpath.internal.operations.String;
 import javafx.scene.input.KeyCode;
 import java.util.Observable;
 import java.util.Random;
@@ -220,6 +219,21 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
          }
      }
 
+     public void getProperties() throws FileNotFoundException {
+        BufferedReader reader;
+        try{
+            reader = new BufferedReader(new FileReader("resources/config.properties"));
+            java.lang.String line = reader.readLine();
+
+            while (line != null){
+                System.out.println(line);
+            }
+        }
+        catch (IOException e){
+
+        }
+
+     }
 
      private void CommunicateWithServer_MazeGenerating(int rows, int cols) {
         try {
@@ -260,7 +274,6 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
                         Maze maze = MyMaze;
-                        maze.print();
                         toServer.writeObject(maze); //send maze to server
                         toServer.flush();
                         Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server

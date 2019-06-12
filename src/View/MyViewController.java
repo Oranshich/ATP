@@ -175,6 +175,7 @@ public class MyViewController implements IView, Observer {
         int goalRow=viewModel.getGoalRow();
         int goalCol=viewModel.getGoalColumn();
         if (characterPositionRow==goalRow && characterPositionColumn==goalCol){
+            viewModel.setToZero();
             btn_generateMaze.setDisable(false);
             solutionDisplayer.clearSol();
             btn_solveMaze.setDisable(true);

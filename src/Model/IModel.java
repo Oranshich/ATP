@@ -20,4 +20,6 @@ public interface IModel {
     void setSolutionNull();
     int getGoalRow();
     int getGoalColumn();
+
+    void setToZero();
 }

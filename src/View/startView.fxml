@@ -21,7 +21,7 @@
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.71429443359375" minWidth="10.0" prefWidth="90.00000762939453" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="34.0" minHeight="5.428558349609375" prefHeight="34.0" />
+                  <RowConstraints maxHeight="28.571441650390625" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="28.571441650390625" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="28.571441650390625" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="28.571441650390625" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
@@ -34,30 +34,27 @@
                   <RowConstraints />
               </rowConstraints>
                <children>
-                  <Button fx:id="btn_medium" lineSpacing="2.0" mnemonicParsing="false" onAction="#mediumMaze" prefHeight="39.0" prefWidth="117.0" text="Medium" textAlignment="CENTER" textFill="#fff9fc" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <Button fx:id="btn_medium" lineSpacing="2.0" mnemonicParsing="false" onAction="#mediumMaze" prefHeight="39.0" prefWidth="105.0" text="Medium" textAlignment="CENTER" textFill="#fff9fc" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                      <GridPane.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </GridPane.margin></Button>
-                  <Button fx:id="btn_small" layoutX="1.0" layoutY="1.0" lineSpacing="2.0" mnemonicParsing="false" onAction="#smallMaze" prefHeight="39.0" prefWidth="105.0" text="Small" textAlignment="CENTER" textFill="#fff9fc" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <Button fx:id="btn_small" lineSpacing="2.0" mnemonicParsing="false" onAction="#smallMaze" prefHeight="39.0" prefWidth="105.0" text="Small" textAlignment="CENTER" textFill="#fff9fc" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
                      <GridPane.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </GridPane.margin></Button>
-                  <Button fx:id="btn_large" lineSpacing="2.0" mnemonicParsing="false" onAction="#largeMaze" prefHeight="37.0" prefWidth="105.0" text="Large" textAlignment="CENTER" textFill="#fff9fc" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                  <Button fx:id="btn_large" lineSpacing="2.0" mnemonicParsing="false" onAction="#largeMaze" prefHeight="39.0" prefWidth="105.0" text="Large" textAlignment="CENTER" textFill="#fff9fc" GridPane.columnIndex="1" GridPane.rowIndex="6">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Arial Rounded MT Bold" size="18.0" />
                      </font>
-                     <GridPane.margin>
-                        <Insets top="5.0" />
-                     </GridPane.margin>
-                     <padding>
-                        <Insets bottom="0.5" />
-                     </padding></Button>
+                      <GridPane.margin>
+                          <Insets bottom="5.0" top="5.0" />
+                      </GridPane.margin></Button>
                </children>
             </GridPane>
             <Button fx:id="btn_start" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="328.0" layoutY="365.0" mnemonicParsing="false" onAction="#startGame" prefHeight="39.0" prefWidth="129.0" text="Start Game" textAlignment="CENTER" textFill="#da117f" wrapText="true">

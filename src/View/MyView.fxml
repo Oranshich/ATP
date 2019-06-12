@@ -79,7 +79,7 @@
     <center>
         <Pane fx:id="pane" prefHeight="600.0" prefWidth="600.0" style="-fx-border-width: 4; -fx-background-color: black" BorderPane.alignment="CENTER">
             <children>
-                <MazeDisplayer fx:id="mazeDisplayer" height="500.0" imageFileNameWall="resources/images/banana.jpg" width="600.0" />
+                <MazeDisplayer fx:id="mazeDisplayer" height="500.0" imageFileNameWall="resources/images/banana.jpg" imageFileNameEnd="resources/images/trophy.jpg" width="600.0" />
                 <SolutionDisplayer fx:id="solutionDisplayer" height="500.0" imageFileNameSolution="resources/images/mic.jpg" width="600.0" />
                 <CharacterDisplayer fx:id="characterDisplayer" height="500.0" imageFileNameCharacter="resources/images/Neta.jpg" width="600.0" />
             </children>

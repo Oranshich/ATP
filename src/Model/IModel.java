@@ -13,9 +13,11 @@ public interface IModel {
     int getCharacterPositionRow();
     int getCharacterPositionColumn();
     void solveMaze();
-    public int [][] getSolution();
+    int [][] getSolution();
     void shutdown();
     void save() throws IOException;
     void load() throws IOException, ClassNotFoundException;
     void setSolutionNull();
+    int getGoalRow();
+    int getGoalColumn();
 }

@@ -178,7 +178,9 @@ public class MyViewController implements IView, Observer {
     public void displayMaze(int[][] maze) {
         this.characterPositionRow.set(characterPositionRow + "");
         this.characterPositionColumn.set(characterPositionColumn + "");
-        mazeDisplayer.setMaze(maze);
+        int goalRow=viewModel.getGoalRow();
+        int goalCol=viewModel.getGoalColumn();
+        mazeDisplayer.setMaze(maze, goalRow, goalCol);
     }
 
     public void displayCharacter(int[][] maze) {

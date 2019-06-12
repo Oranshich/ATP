@@ -21,6 +21,7 @@ public class MazeDisplayer extends Canvas{
 
     private int[][] maze;
     private StringProperty ImageFileNameWall = new SimpleStringProperty();
+    private StringProperty ImageFileNameEnd = new SimpleStringProperty();
     private static MediaPlayer start_play;
     private static MediaPlayer maze_play;
     private static MediaPlayer win_play;
@@ -28,25 +29,10 @@ public class MazeDisplayer extends Canvas{
     private static String music2 = MazeDisplayer.class.getResource("/music/Nana Banana.mp3").toString();
     private static String music3 = MazeDisplayer.class.getResource("/music/Bassa.mp3").toString();
     private double zoom = 1;
-
-    public double getZoom() {
-        return zoom;
-    }
-
-    public void setZoom(double zoom) {
-        this.zoom = zoom;
-    }
-
-    public double getCanvasHeight() {
-        return canvasHeight;
-    }
-
-    public double getCanvasWidth() {
-        return canvasWidth;
-    }
-
     private double canvasHeight;
     private double canvasWidth;
+    private int goalRow;
+    private int goalColumn;
 
     public MazeDisplayer() {
         // Redraw canvas when size changes.
@@ -54,9 +40,10 @@ public class MazeDisplayer extends Canvas{
         heightProperty().addListener(evt -> redraw());
     }
 
-    public void setMaze(int[][] maze) {
+    public void setMaze(int[][] maze, int goalRow, int goalColumn) {
         this.maze = maze;
-
+        this.goalRow=goalRow;
+        this.goalColumn=goalColumn;
         redraw();
     }
 
@@ -74,13 +61,15 @@ public class MazeDisplayer extends Canvas{
 
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
-                //Image characterImage = new Image(new FileInputStream(ImageFileNameCharacter.get()));
+                Image endImage = new Image(new FileInputStream(ImageFileNameEnd.get()));
 
                 GraphicsContext gc = getGraphicsContext2D();
                 gc.clearRect(0, 0, getWidth(), getHeight());
                 //Draw Maze
                 for (int i = 0; i < maze.length; i++) {
                     for (int j = 0; j < maze[i].length; j++) {
+                        if(i==goalRow && j==goalColumn)
+                            gc.drawImage(endImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
                         if (maze[i][j] == 1) {
                             gc.drawImage(wallImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
                         }else{
@@ -92,6 +81,21 @@ public class MazeDisplayer extends Canvas{
                 //e.printStackTrace();
             }
         }
+    }
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
+    }
+
+    public double getCanvasHeight() {
+        return canvasHeight;
+    }
+
+    public double getCanvasWidth() {
+        return canvasWidth;
     }
 
     public void setResize(double height, double width){
@@ -106,6 +110,14 @@ public class MazeDisplayer extends Canvas{
 
     public void setImageFileNameWall(String imageFileNameWall) {
         this.ImageFileNameWall.set(imageFileNameWall);
+    }
+
+    public String getImageFileNameEnd() {
+        return ImageFileNameEnd.get();
+    }
+
+    public void setImageFileNameEnd(String imageFileNameEnd) {
+        this.ImageFileNameEnd.set(imageFileNameEnd);
     }
 
 

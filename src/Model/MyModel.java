@@ -145,21 +145,6 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
         return characterColumn;
     }
 
-     public int getLastCharRow() {
-         return lastCharRow;
-     }
-
-     public void setLastCharRow(int lastCharRow) {
-         this.lastCharRow = lastCharRow;
-     }
-
-     public int getLastCharCol() {
-         return lastCharCol;
-     }
-
-     public void setLastCharCol(int lastCharCol) {
-         this.lastCharCol = lastCharCol;
-     }
 
      @Override
      public void solveMaze() {
@@ -294,4 +279,24 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
            // e.printStackTrace();
         }
     }
-}
+
+     public int getLastCharRow() {
+         return lastCharRow;
+     }
+
+     public void setLastCharRow(int lastCharRow) {
+         this.lastCharRow = lastCharRow;
+     }
+
+     public int getLastCharCol() {
+         return lastCharCol;
+     }
+
+     public void setLastCharCol(int lastCharCol) {
+         this.lastCharCol = lastCharCol;
+     }
+
+     public int getGoalRow(){ return maze.getGoalPosition().getRowIndex();}
+
+     public int getGoalColumn(){ return maze.getGoalPosition().getColumnIndex();}
+ }

@@ -256,6 +256,12 @@ public class MyViewController implements IView, Observer {
         switchScene();
     }
 
+    public void closeWin(){
+        Stage stage = (Stage) btn_playAgain.getScene().getWindow();
+        stage.close();
+    }
+
+
     //Load maze from file
     public void load() throws IOException, ClassNotFoundException {
         viewModel.load();
@@ -316,23 +322,6 @@ public class MyViewController implements IView, Observer {
     public StringProperty characterPositionColumnProperty() {
         return characterPositionColumn;
     }
-
-//    public void setResizeEvent(Scene scene) {
-//        long width = 0;
-//        long height = 0;
-//        scene.widthProperty().addListener(new ChangeListener<Number>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-//                System.out.println("Width: " + newSceneWidth);
-//            }
-//        });
-//        scene.heightProperty().addListener(new ChangeListener<Number>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-//                System.out.println("Height: " + newSceneHeight);
-//            }
-//        });
-//    }
 
     public void About() {
         try {
@@ -405,7 +394,6 @@ public class MyViewController implements IView, Observer {
         try {
             primaryStage.setScene(scene);
             mazeDisplayer.ControlSong("play");
-
             primaryStage.show();
         } catch (Exception e) {
         }

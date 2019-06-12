@@ -11,7 +11,7 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btn_exit" layoutX="208.0" layoutY="218.0" mnemonicParsing="false" onAction="#exit" text="Exit">
+      <Button fx:id="btn_exit" layoutX="208.0" layoutY="218.0" mnemonicParsing="false" onAction="#closeWin" text="Close">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>

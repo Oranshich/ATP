@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.effect.Glow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -69,6 +70,7 @@
                   <Glow level="0.29" />
                </effect>
             </Label>
+            <Slider layoutX="89.0" layoutY="378.0" prefHeight="14.0" prefWidth="48.0" />
          </children></Pane>
 
    </center>

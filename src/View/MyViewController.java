@@ -56,7 +56,7 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
-    public javafx.scene.control.Button btn_mute;
+    public javafx.scene.control.RadioButton btn_sound;
     public javafx.scene.control.Button btn_small;
     public javafx.scene.control.Button btn_medium;
     public javafx.scene.control.Button btn_large;
@@ -76,6 +76,7 @@ public class MyViewController implements IView, Observer {
         this.primaryStage = primaryStage;
         btn_solveMaze.setDisable(true);
         btn_Save.setDisable(true);
+        bindProperties(viewModel);
         switchScene();
     }
 
@@ -151,8 +152,7 @@ public class MyViewController implements IView, Observer {
     public void generateMaze() {
         btn_generateMaze.setDisable(true);
         solutionDisplayer.clearSol();
-
-        bindProperties(viewModel);
+        mazeDisplayer.ControlSong("play");
         viewModel.generateMaze(rows, columns);
         btn_solveMaze.setDisable(false);
         btn_Save.setDisable(false);
@@ -260,6 +260,7 @@ public class MyViewController implements IView, Observer {
     public void closeWin(){
         Stage stage = (Stage) btn_playAgain.getScene().getWindow();
         stage.close();
+        mazeDisplayer.ControlSong("stop");
     }
 
 
@@ -273,8 +274,16 @@ public class MyViewController implements IView, Observer {
         viewModel.save();
     }
 
-    public void mute(ActionEvent actionEvent){
-        mazeDisplayer.ControlSong("mute");
+    public void muteOrResumeSound(ActionEvent actionEvent)
+    {
+        if(btn_sound.isSelected()==false) {
+            mazeDisplayer.ControlSong("mute");
+        }
+        else   mazeDisplayer.ControlSong("resume");
+    }
+
+    public void mouseClicked(MouseEvent mouseEvent) {
+        this.mazeDisplayer.requestFocus();
     }
 
     //Exit the game
@@ -394,7 +403,7 @@ public class MyViewController implements IView, Observer {
     public void startGame() {
         try {
             primaryStage.setScene(scene);
-            mazeDisplayer.ControlSong("play");
+            //mazeDisplayer.ControlSong("play");
             primaryStage.show();
         } catch (Exception e) {
         }

@@ -68,8 +68,7 @@ public class MazeDisplayer extends Canvas{
                 //Draw Maze
                 for (int i = 0; i < maze.length; i++) {
                     for (int j = 0; j < maze[i].length; j++) {
-                        if(i==goalRow && j==goalColumn)
-                            gc.drawImage(endImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+
                         if (maze[i][j] == 1) {
                             gc.drawImage(wallImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);
                         }else{
@@ -77,7 +76,7 @@ public class MazeDisplayer extends Canvas{
                         }
                     }
                 }
-                //gc.drawImage(endImage, goalColumn * cellWidth, goalRow * cellHeight, cellWidth, cellHeight);
+                gc.drawImage(endImage, goalColumn * cellWidth, goalRow * cellHeight, cellWidth, cellHeight);
             } catch (FileNotFoundException e) {
                 //e.printStackTrace();
             }

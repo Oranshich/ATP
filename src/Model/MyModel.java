@@ -219,20 +219,21 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
          }
      }
 
-     public void getProperties() throws FileNotFoundException {
+     public String getProperties() throws FileNotFoundException {
         BufferedReader reader;
+        String returnText = "";
         try{
             reader = new BufferedReader(new FileReader("resources/config.properties"));
-            java.lang.String line = reader.readLine();
+            java.lang.String line;
 
-            while (line != null){
-                System.out.println(line);
+            while ((line = reader.readLine()) != null){
+                returnText = returnText + "\n" + line;
             }
         }
         catch (IOException e){
 
         }
-
+        return returnText;
      }
 
      private void CommunicateWithServer_MazeGenerating(int rows, int cols) {

@@ -191,7 +191,6 @@ public class MyViewController implements IView, Observer {
             solutionDisplayer.clearSol();
             btn_solveMaze.setDisable(true);
             viewModel.setSolutionNull();
-            maze=null;
             wonGame();
         }
     }
@@ -264,7 +263,6 @@ public class MyViewController implements IView, Observer {
 
     public void PlayAgain(){
         Stage stage = (Stage) btn_playAgain.getScene().getWindow();
-
         stage.close();
         switchScene();
     }

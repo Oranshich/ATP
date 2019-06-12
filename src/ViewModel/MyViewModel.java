@@ -18,8 +18,8 @@ public class MyViewModel extends Observable implements Observer{
     private int characterPositionRowIndex;
     private int characterPositionColumnIndex;
     //string properties
-    public StringProperty characterPositionRow = new SimpleStringProperty("1"); //For Binding
-    public StringProperty characterPositionColumn = new SimpleStringProperty("1"); //For Binding
+    public StringProperty characterPositionRow = new SimpleStringProperty("0"); //For Binding
+    public StringProperty characterPositionColumn = new SimpleStringProperty("0"); //For Binding
 
     public MyViewModel(IModel model)
     {

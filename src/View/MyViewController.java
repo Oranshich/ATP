@@ -63,6 +63,7 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Button btn_large;
     public javafx.scene.control.Button btn_start;
     public javafx.scene.control.Button btn_playAgain;
+    public javafx.scene.control.Button btn_exit;
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
@@ -263,13 +264,8 @@ public class MyViewController implements IView, Observer {
 
     public void PlayAgain(){
         Stage stage = (Stage) btn_playAgain.getScene().getWindow();
-
         stage.close();
         switchScene();
-    }
-
-    private void startAgain(){
-        generateMaze();
     }
 
 //    public void displayMaze(int[][] maze){
@@ -293,7 +289,7 @@ public class MyViewController implements IView, Observer {
 
     //Exit the game
     public void exit() {
-        // viewModel.shutdown();
+        viewModel.shutDown();
         Platform.exit();
     }
 

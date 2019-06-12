@@ -6,7 +6,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <children>
-      <Button fx:id="btn_playAgain" layoutX="166.0" layoutY="166.0" mnemonicParsing="false" onAction="#PlayAgain" prefHeight="34.0" prefWidth="133.0" text="Play Again">
+      <Button fx:id="btn_playAgain" layoutX="174.0" layoutY="166.0" mnemonicParsing="false" onAction="#PlayAgain" prefHeight="34.0" prefWidth="125.0" text="Play Again">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="btn_exit" layoutX="208.0" layoutY="218.0" mnemonicParsing="false" onAction="#exit" text="Exit">
          <font>
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>

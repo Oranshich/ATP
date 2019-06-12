@@ -59,7 +59,7 @@ public class SolutionDisplayer extends Canvas {
                 Image solutionImage = new Image(new FileInputStream(ImageFileNameSolution.get()));
 
                 gc.clearRect(0,0,canvasWidth,canvasHeight);
-                for (int i = 0; i < solution.length; i++) {
+                for (int i = 0; i < solution.length-1; i++) {
                     for (int j = 0; j < solution[i].length; j++) {
                         if(solution[i][j] == 1)
                             gc.drawImage(solutionImage, j * cellWidth, i * cellHeight, cellWidth, cellHeight);

@@ -44,7 +44,6 @@ public class MyViewController implements IView, Observer {
     public CharacterDisplayer characterDisplayer;
     private static Stage primaryStage;
     private Stage mazeStage;
-    private Parent root;
     private static Scene scene;
     public BorderPane startPane;
     public BorderPane borderPane;
@@ -63,6 +62,7 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Button btn_medium;
     public javafx.scene.control.Button btn_large;
     public javafx.scene.control.Button btn_start;
+    public javafx.scene.control.Button btn_playAgain;
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
@@ -74,7 +74,6 @@ public class MyViewController implements IView, Observer {
         this.viewModel = viewModel;
         this.scene = scene;
         this.primaryStage = primaryStage;
-        //setResizeEvent(scene);
         btn_solveMaze.setDisable(true);
         btn_Save.setDisable(true);
         switchScene();
@@ -112,10 +111,6 @@ public class MyViewController implements IView, Observer {
      */
     public void switchScene() {
         try {
-//            BackgroundImage myBI= new BackgroundImage(new Image("/images/back.jpg",32,32,false,true),
-//                    BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
-//                    BackgroundSize.DEFAULT);
-
             FXMLLoader fxmlLoader1 = new FXMLLoader();
             Parent root = fxmlLoader1.load(getClass().getResource("startView.fxml").openStream());
             //new scene
@@ -123,7 +118,7 @@ public class MyViewController implements IView, Observer {
             scene1.getStylesheets().add(getClass().getResource("ViewStyle2.css").toExternalForm());
             primaryStage.setScene(scene1);
             mazeDisplayer.ControlSong("start");
-           // startPane.setBackground(new Background(myBI));
+            bindProperties(viewModel);
             primaryStage.show();
 
         } catch (Exception e) {
@@ -189,6 +184,16 @@ public class MyViewController implements IView, Observer {
         int characterPositionColumn = viewModel.getCharacterPositionColumn();
         characterDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
         characterDisplayer.setMaze(maze);
+        int goalRow=viewModel.getGoalRow();
+        int goalCol=viewModel.getGoalColumn();
+        if (characterPositionRow==goalRow && characterPositionColumn==goalCol){
+            btn_generateMaze.setDisable(false);
+            solutionDisplayer.clearSol();
+            btn_solveMaze.setDisable(true);
+            viewModel.setSolutionNull();
+            maze=null;
+            wonGame();
+        }
     }
 
     public void displaySolution(int[][] maze, int[][] sol) {
@@ -225,16 +230,6 @@ public class MyViewController implements IView, Observer {
                     displayMaze(viewModel.getMaze());
                     displayCharacter(viewModel.getMaze());
             }
-            /*
-            if(isDisplayedMaze){
-                isDisplayedMaze = false;
-            }
-            if(isDisplayedSolution){
-                isDisplayedSolution= false;
-                displaySolution(viewModel.getMaze(),viewModel.getSolution());
-            }
-            displayCharacter(viewModel.getMaze());*/
-            // btn_generateMaze.setDisable(false);
         }
     }
 
@@ -249,21 +244,31 @@ public class MyViewController implements IView, Observer {
         alert.show();
     }
 
-    public void wonGame(ActionEvent actionEvent) {
+    public void wonGame() {
         try {
+            mazeDisplayer.clear();
+            characterDisplayer.clear();
             Stage stage = new Stage();
             stage.setTitle("You Won The Game!!!");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("winView.fxml").openStream());
-            Scene scene = new Scene(root, 400, 350);
+            Scene scene = new Scene(root, 480, 268);
+            scene.getStylesheets().add(getClass().getResource("ViewStyle3.css").toExternalForm());
             stage.setScene(scene);
             mazeDisplayer.ControlSong("win");
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
         } catch (Exception e) {
-
         }
     }
+
+    public void PlayAgain(){
+        Stage stage = (Stage) btn_playAgain.getScene().getWindow();
+
+        stage.close();
+        switchScene();
+    }
+
 
 //    public void displayMaze(int[][] maze){
 //        mazeDisplayer.setMaze(maze);
@@ -417,9 +422,10 @@ public class MyViewController implements IView, Observer {
 
     public void startGame() {
         try {
+
             primaryStage.setScene(scene);
             mazeDisplayer.ControlSong("play");
-            // primaryStage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
+
             primaryStage.show();
         } catch (Exception e) {
         }

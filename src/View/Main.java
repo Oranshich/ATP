@@ -38,7 +38,6 @@ public class Main extends Application {
         viewModel.addObserver(view);
         //--------------
         SetStageCloseEvent(primaryStage, model);
-       // primaryStage.show();
     }
 
     private void SetStageCloseEvent(Stage primaryStage, MyModel model) {

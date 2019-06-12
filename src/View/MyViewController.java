@@ -176,7 +176,6 @@ public class MyViewController implements IView, Observer {
             isDisplayedMaze = false;
             btn_solveMaze.setDisable(true);
             viewModel.setSolutionNull();
-            maze=null;
             wonGame();
         }
     }
@@ -251,6 +250,9 @@ public class MyViewController implements IView, Observer {
         switchScene();
     }
 
+    private void startAgain(){
+        generateMaze();
+    }
 
 //    public void displayMaze(int[][] maze){
 //        mazeDisplayer.setMaze(maze);
@@ -388,7 +390,6 @@ public class MyViewController implements IView, Observer {
 
     public void startGame() {
         try {
-
             primaryStage.setScene(scene);
             mazeDisplayer.ControlSong("play");
             primaryStage.show();

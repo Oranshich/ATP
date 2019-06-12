@@ -13,7 +13,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -57,13 +56,13 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
-   // public javafx.scene.control.Button btn_winMaze;
-
+    public javafx.scene.control.Button btn_mute;
     public javafx.scene.control.Button btn_small;
     public javafx.scene.control.Button btn_medium;
     public javafx.scene.control.Button btn_large;
     public javafx.scene.control.Button btn_start;
     public javafx.scene.control.Button btn_playAgain;
+    public javafx.scene.control.Button btn_exit;
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
@@ -128,27 +127,17 @@ public class MyViewController implements IView, Observer {
     }
 
     public void setScroll(ScrollEvent e){
-
             double deltaY = e.getDeltaY();
             if(isControlDown){
-
                 if(deltaY > 0){
                     mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);
                     characterDisplayer.setZoom(characterDisplayer.getZoom()*1.1);
                     solutionDisplayer.setZoom(solutionDisplayer.getZoom()*1.1);
-                    //mazeDisplayer.setScaleY(mazeDisplayer.getScaleY()*1.1);
-                    //mazeDisplayer.setHeight(mazeDisplayer.getCanvasHeight()*1.1);
-                    //mazeDisplayer.setResize(mazeDisplayer.getHeight()*1.1,mazeDisplayer.getWidth()*1.1);
                 }
                 else{
-//                mazeDisplayer.setScaleX(mazeDisplayer.getScaleX()/1.1);
                     mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
                     characterDisplayer.setZoom(characterDisplayer.getZoom()/1.1);
                     solutionDisplayer.setZoom(solutionDisplayer.getZoom()/1.1);
-//                mazeDisplayer.setScaleY(mazeDisplayer.getScaleY()/1.1);
-                    //mazeDisplayer.setResize(mazeDisplayer.getHeight()/1.1,mazeDisplayer.getWidth()/1.1);
-                    //mazeDisplayer.setHeight(mazeDisplayer.getCanvasHeight()/1.1);
-                    //mazeDisplayer.setWidth(mazeDisplayer.getCanvasWidth()/1.1);
                 }
 
                 displayMaze(viewModel.getMaze());
@@ -157,8 +146,6 @@ public class MyViewController implements IView, Observer {
                     displaySolution(viewModel.getMaze(),viewModel.getSolution());
                 }
             }
-
-
     }
 
     public void generateMaze() {
@@ -193,6 +180,7 @@ public class MyViewController implements IView, Observer {
             solutionDisplayer.clearSol();
             btn_solveMaze.setDisable(true);
             viewModel.setSolutionNull();
+
             wonGame();
         }
     }
@@ -269,16 +257,6 @@ public class MyViewController implements IView, Observer {
         switchScene();
     }
 
-
-//    public void displayMaze(int[][] maze){
-//        mazeDisplayer.setMaze(maze);
-//        int characterPositionRow = viewModel.getCharacterPositionRow();
-//        int characterPositionColumn = viewModel.getCharacterPositionColumn();
-//        mazeDisplayer.setCharacterPosition(characterPositionRow, characterPositionColumn);
-//        this.characterPositionRow.set(characterPositionRow + "");
-//        this.characterPositionColumn.set(characterPositionColumn + "");
-//    }
-
     //Load maze from file
     public void load() throws IOException, ClassNotFoundException {
         viewModel.load();
@@ -289,9 +267,13 @@ public class MyViewController implements IView, Observer {
         viewModel.save();
     }
 
+    public void mute(ActionEvent actionEvent){
+        mazeDisplayer.ControlSong("mute");
+    }
+
     //Exit the game
     public void exit() {
-        // viewModel.shutdown();
+        viewModel.shutDown();
         Platform.exit();
     }
 
@@ -359,7 +341,7 @@ public class MyViewController implements IView, Observer {
             stage.setTitle("About");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("about.fxml").openStream());
-            Scene scene = new Scene(root, 400, 350);
+            Scene scene = new Scene(root, 450, 200);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
@@ -374,7 +356,7 @@ public class MyViewController implements IView, Observer {
             stage.setTitle("help");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("help.fxml").openStream());
-            Scene scene = new Scene(root, 400, 350);
+            Scene scene = new Scene(root, 440, 280);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
@@ -422,7 +404,6 @@ public class MyViewController implements IView, Observer {
 
     public void startGame() {
         try {
-
             primaryStage.setScene(scene);
             mazeDisplayer.ControlSong("play");
 

@@ -132,7 +132,11 @@ public class MazeDisplayer extends Canvas{
 
     //Control songs
     public static void ControlSong(String command) {
+        if (command.equals("mute")){
+            if (maze_play!=null) maze_play.stop();
+        }
         if (command.equals("start")) {
+            if (win_play!=null) win_play.stop();
             start_play = new MediaPlayer(new Media(music1));
             start_play.play();
         }

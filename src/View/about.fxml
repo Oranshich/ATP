@@ -2,9 +2,13 @@
 
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<AnchorPane prefHeight="400.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <children>
-      <TextArea prefHeight="400.0" prefWidth="600.0" text="Created by two software engineers: Oran shichman and Chen Galed. &#10;The Algorithm which create the maze is DFS algorithm" />
+      <TextArea prefHeight="450.0" prefWidth="680.0" style="-fx-border-color: #aec327;" text="Welcome and thank you for choosing to play our game!                  &#10;This maze game was created by two software engineers:                  &#10;Oran Shichman and Chen Galed.                  &#10; &#10;The Algorithm which creates the maze is based on a DFS algorithm                  &#10;In the start window you can choose out of 3 sizes: Small, Medium or Large.                  &#10;- Small will generate a 20X20 maze                  &#10;- Medium will generate a 40X40 maze                  &#10;- Large will generate a 60X60 maze                  &#10;&#10;We hope you enjoy playing :) ">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="12.0" />
+         </font></TextArea>
    </children>
 </AnchorPane>

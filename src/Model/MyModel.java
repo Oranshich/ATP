@@ -174,7 +174,7 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
     public void shutdown() {
         stopServers();
         setChanged();
-        notifyObservers("Shutdown servers");
+//        notifyObservers("Shutdown servers");
     }
 
      //Save maze to file

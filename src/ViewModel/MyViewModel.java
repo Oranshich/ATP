@@ -70,6 +70,10 @@ public class MyViewModel extends Observable implements Observer{
 
     public int getLastCharCol(){return model.getCharacterPositionColumn();}
 
+    public int getGoalRow(){ return model.getGoalRow();}
+
+    public int getGoalColumn(){ return model.getGoalColumn();}
+
     //save maze
     public void save() throws IOException {
         model.save();

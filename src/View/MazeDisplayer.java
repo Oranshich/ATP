@@ -77,6 +77,7 @@ public class MazeDisplayer extends Canvas{
                         }
                     }
                 }
+                //gc.drawImage(endImage, goalColumn * cellWidth, goalRow * cellHeight, cellWidth, cellHeight);
             } catch (FileNotFoundException e) {
                 //e.printStackTrace();
             }

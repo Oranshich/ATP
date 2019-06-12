@@ -49,7 +49,6 @@ public class MazeDisplayer extends Canvas{
 
 
     public void redraw() {
-
         if (maze != null) {
             //setWidth(maze[0].length*10);
             //setHeight(maze.length*10);
@@ -82,6 +81,14 @@ public class MazeDisplayer extends Canvas{
             }
         }
     }
+
+    public void clear() {
+        if (maze != null) {
+            GraphicsContext gc = getGraphicsContext2D();
+            gc.clearRect(0, 0, getWidth(), getHeight());
+        }
+    }
+
     public double getZoom() {
         return zoom;
     }

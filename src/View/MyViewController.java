@@ -1,5 +1,6 @@
 package View;
 
+import Server.Server;
 import ViewModel.MyViewModel;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
@@ -16,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -29,6 +31,7 @@ import javafx.stage.Window;
 
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -48,6 +51,8 @@ public class MyViewController implements IView, Observer {
     public BorderPane startPane;
     public BorderPane borderPane;
     private boolean isControlDown = false;
+    private static String level;
+    private static String solveAlgo;
 
     @FXML
     public javafx.scene.layout.Pane pane;
@@ -64,8 +69,8 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Button btn_playAgain;
     public javafx.scene.control.Button btn_exit;
     public javafx.scene.control.Button btn_OK;
-    public javafx.scene.control.ChoiceBox<String> levelList;
-    public javafx.scene.control.ChoiceBox<String> solveList;
+    public javafx.scene.control.MenuButton levelList;
+    public javafx.scene.control.MenuButton solveList;
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
@@ -312,6 +317,12 @@ public class MyViewController implements IView, Observer {
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("properties.fxml").openStream());
             Scene scene = new Scene(root, 350, 250);
+            MenuButton menuButtonLabel=(MenuButton)scene.lookup("#levelList");
+            level= Server.Configurations.prop.getProperty("generateMaze");
+            menuButtonLabel.setText(level);
+            MenuButton menuButtonSolve=(MenuButton)scene.lookup("#solveList");
+            solveAlgo= Server.Configurations.prop.getProperty("solveMaze");
+            menuButtonSolve.setText(solveAlgo);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
@@ -416,30 +427,37 @@ public class MyViewController implements IView, Observer {
         return viewModel;
     }
 
+    public void selectMenuLevel(ActionEvent actionEvent){
+        level=((MenuItem)(actionEvent.getSource())).getText();
+        levelList.setText(level);
+    }
+
+    public void selectMenuSolve(ActionEvent actionEvent){
+        solveAlgo=((MenuItem)(actionEvent.getSource())).getText();
+        solveList.setText(solveAlgo);
+    }
+
     public void setSettings(ActionEvent actionEvent) {
         Stage stage = (Stage) btn_OK.getScene().getWindow();
         stage.close();
-        String level= levelList.getValue();
-        String solve=solveList.getValue();
         if (level.equals("Empty")){
-
+            //Server.Configurations.prop.setProperty("generateMaze","EmptyMazeGenerator");
         }
-        else if (level.equals("Simply")){
-
+        else if (level.equals("Simple")){
+            Server.Configurations.prop.setProperty("generateMaze","SimpleMazeGenerator");
         }
         else  if (level.equals("Complicated")){
-            int j=0;
+            Server.Configurations.prop.setProperty("generateMaze","MyMazeGenerator");
         }
-        if (solve.equals("Depth First Search")){
-            int i=0;
+        if (solveAlgo.equals("Depth First Search")){
+            Server.Configurations.prop.setProperty("solveMaze","DepthFirstSearch");
         }
-        else if (solve.equals("Breath First Search")){
-
+        else if (solveAlgo.equals("Breath First Search")){
+            Server.Configurations.prop.setProperty("solveMaze","BreadthFirstSearch");
         }
-        else  if (solve.equals("Best First Search")){
-
+        else  if (solveAlgo.equals("Best First Search")){
+            Server.Configurations.prop.setProperty("solveMaze","BestFirstSearch");
         }
-
     }
 
 

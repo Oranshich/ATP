@@ -422,8 +422,8 @@ public class MyViewController implements IView, Observer {
         try {
             primaryStage.setScene(scene);
             mazeDisplayer.ControlSong("play");
-
-            primaryStage.show();
+            generateMaze();
+            //primaryStage.show();
         } catch (Exception e) {
         }
     }

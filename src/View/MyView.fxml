@@ -94,34 +94,4 @@
             </children>
         </Pane>
     </center>
-   <bottom>
-      <VBox prefHeight="20.0" prefWidth="700.0" BorderPane.alignment="CENTER">
-         <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="lbl_level" layoutX="262.0" layoutY="1.0" prefHeight="10.0" prefWidth="131.0" text="${controller.level}">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="11.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="178.0" text="Current Level:  ">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="401.0" text="Current Solving Algorithm:  ">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lbl_solveAlgo" layoutX="566.0" layoutY="1.0" prefHeight="11.0" prefWidth="130.0">
-                     <font>
-                        <Font name="Arial Rounded MT Bold" size="11.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
-         </children>
-      </VBox>
-   </bottom>
 </BorderPane>

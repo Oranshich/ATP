@@ -16,7 +16,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,11 +29,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.scene.text.Text;
-import javafx.scene.Group;
 
 import java.io.*;
 import java.net.URL;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
@@ -41,7 +42,6 @@ public class MyViewController implements IView, Observer {
     private static int rows = 0;
     private static int columns = 0;
     public MenuItem btn_Save;
-    @FXML public TextArea propertiesText;
     private MyViewModel viewModel;
     public MazeDisplayer mazeDisplayer;
     public SolutionDisplayer solutionDisplayer;
@@ -52,6 +52,8 @@ public class MyViewController implements IView, Observer {
     public BorderPane startPane;
     public BorderPane borderPane;
     private boolean isControlDown = false;
+    private static String level;
+    private static String solveAlgo;
     private boolean isPlayed = false;
 
 
@@ -73,20 +75,14 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Button btn_playAgain;
     public javafx.scene.control.Button btn_exit;
     public javafx.scene.control.Button btn_OK;
-    @FXML
-    public javafx.scene.control.ChoiceBox<String> levelList;
-    @FXML
-    public javafx.scene.control.ChoiceBox<String> solveList;
+    public javafx.scene.control.MenuButton levelList;
+    public javafx.scene.control.MenuButton solveList;
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
     public StringProperty characterPositionColumn = new SimpleStringProperty();
-    public StringProperty level = new SimpleStringProperty();
-    public StringProperty solveAlgo = new SimpleStringProperty();
 
     public void initialize(MyViewModel viewModel, Stage primaryStage, Scene scene) {
-        level.set("MyMazeGenerator");
-        solveAlgo.set("BestFirstSearch");
         this.viewModel = viewModel;
         this.scene = scene;
         this.primaryStage = primaryStage;
@@ -97,9 +93,6 @@ public class MyViewController implements IView, Observer {
     }
 
     private void bindProperties(MyViewModel viewModel) {
-        //Settings
-        lbl_level.textProperty().bind(level);
-        lbl_solveAlgo.textProperty().bind(solveAlgo);
         //position
         lbl_rowsNum.textProperty().bind(viewModel.characterPositionRow);
         lbl_columnsNum.textProperty().bind(viewModel.characterPositionColumn);
@@ -186,6 +179,7 @@ public class MyViewController implements IView, Observer {
         int goalRow=viewModel.getGoalRow();
         int goalCol=viewModel.getGoalColumn();
         mazeDisplayer.setMaze(maze, goalRow, goalCol);
+        btn_generateMaze.setDisable(false);
     }
 
     public void displayCharacter(int[][] maze) {
@@ -326,25 +320,22 @@ public class MyViewController implements IView, Observer {
     }
 
     public void properties(ActionEvent actionEvent) {
-        try{
-            propertiesText = new TextArea();
-
-
+        try {
             Stage stage = new Stage();
             stage.setTitle("Properties");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("properties.fxml").openStream());
-            //Platform.runLater(() -> updateTextArea());
             Scene scene = new Scene(root, 350, 250);
-            ChoiceBox<String> choice = (ChoiceBox<String>)scene.lookup("#levelList");
+            MenuButton menuButtonLabel=(MenuButton)scene.lookup("#levelList");
+            level= Server.Configurations.prop.getProperty("generateMaze");
+            menuButtonLabel.setText(level);
+            MenuButton menuButtonSolve=(MenuButton)scene.lookup("#solveList");
+            solveAlgo= Server.Configurations.prop.getProperty("solveMaze");
+            menuButtonSolve.setText(solveAlgo);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
-
             stage.show();
-
-        } catch (IOException e)
-        {
-            e.printStackTrace();
+        } catch (Exception e) {
 
         }
     }
@@ -352,7 +343,6 @@ public class MyViewController implements IView, Observer {
     public String getCharacterPositionRow() {
         return characterPositionRow.get();
     }
-
 
     public StringProperty characterPositionRowProperty() {
         return characterPositionRow;
@@ -364,23 +354,6 @@ public class MyViewController implements IView, Observer {
 
     public StringProperty characterPositionColumnProperty() {
         return characterPositionColumn;
-    }
-
-    //level and solve algorithm getters
-    public String getLevel() {
-        return level.get();
-    }
-
-    public StringProperty levelProperty() {
-        return level;
-    }
-
-    public String getsolveAlgo() {
-        return solveAlgo.get();
-    }
-
-    public StringProperty solveProperty() {
-        return solveAlgo;
     }
 
     public void About() {
@@ -454,7 +427,7 @@ public class MyViewController implements IView, Observer {
         try {
             primaryStage.setScene(scene);
             //mazeDisplayer.ControlSong("play");
-            // primaryStage.show();
+           // primaryStage.show();
         } catch (Exception e) {
         }
     }
@@ -463,30 +436,35 @@ public class MyViewController implements IView, Observer {
         return viewModel;
     }
 
-    public void setSettings(ActionEvent actionEvent) {
+    public void selectMenuLevel(ActionEvent actionEvent){
+        level=((MenuItem)(actionEvent.getSource())).getText();
+        levelList.setText(level);
+    }
 
+    public void selectMenuSolve(ActionEvent actionEvent){
+        solveAlgo=((MenuItem)(actionEvent.getSource())).getText();
+        solveList.setText(solveAlgo);
+    }
+
+    public void setSettings(ActionEvent actionEvent) {
         Stage stage = (Stage) btn_OK.getScene().getWindow();
         stage.close();
-        String lbl=levelList.getValue();
-        String solve=solveList.getValue();
-        level.set(lbl);
-        solveAlgo.set(solve);
         if (level.equals("Empty")){
             //Server.Configurations.prop.setProperty("generateMaze","EmptyMazeGenerator");
         }
-        else if (getLevel().equals("Simple")){
+        else if (level.equals("Simple")){
             Server.Configurations.prop.setProperty("generateMaze","SimpleMazeGenerator");
         }
-        else  if (getLevel().equals("Complicated")){
+        else  if (level.equals("Complicated")){
             Server.Configurations.prop.setProperty("generateMaze","MyMazeGenerator");
         }
-        if (getsolveAlgo().equals("Depth First Search")){
+        if (solveAlgo.equals("Depth First Search")){
             Server.Configurations.prop.setProperty("solveMaze","DepthFirstSearch");
         }
-        else if (getsolveAlgo().equals("Breath First Search")){
+        else if (solveAlgo.equals("Breadth First Search")){
             Server.Configurations.prop.setProperty("solveMaze","BreadthFirstSearch");
         }
-        else  if (solveAlgo.getValue().equals("Best First Search")){
+        else  if (solveAlgo.equals("Best First Search")){
             Server.Configurations.prop.setProperty("solveMaze","BestFirstSearch");
         }
     }

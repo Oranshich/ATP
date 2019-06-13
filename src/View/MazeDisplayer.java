@@ -2,17 +2,21 @@ package View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -20,8 +24,6 @@ import java.util.ResourceBundle;
 public class MazeDisplayer extends Canvas{
 
     private int[][] maze;
-    private StringProperty ImageFileNameWall = new SimpleStringProperty();
-    private StringProperty ImageFileNameEnd = new SimpleStringProperty();
     private static MediaPlayer start_play;
     private static MediaPlayer maze_play;
     private static MediaPlayer win_play;
@@ -33,7 +35,11 @@ public class MazeDisplayer extends Canvas{
     private double canvasWidth;
     private int goalRow;
     private int goalColumn;
+    @FXML
+    private StringProperty ImageFileNameWall = new SimpleStringProperty();
+    private StringProperty ImageFileNameEnd = new SimpleStringProperty();
     private GraphicsContext gc;
+
 
     public MazeDisplayer() {
         // Redraw canvas when size changes.
@@ -130,12 +136,24 @@ public class MazeDisplayer extends Canvas{
     }
 
 
+
     //Control songs
     public static void ControlSong(String command) {
         if (command.equals("mute")){
-            if (maze_play!=null) maze_play.stop();
+            if (maze_play!=null) maze_play.pause();
         }
-        if (command.equals("start")) {
+        else if (command.equals("resume")) {
+            if (maze_play != null) maze_play.play();
+        }
+        else if (command.equals("stop")) {
+            if (maze_play != null){
+                maze_play.stop();
+            }
+            if (win_play!=null){
+                win_play.stop();
+            }
+        }
+        else if (command.equals("start")) {
             if (win_play!=null) win_play.stop();
             start_play = new MediaPlayer(new Media(music1));
             start_play.play();

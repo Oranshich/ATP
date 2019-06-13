@@ -5,6 +5,7 @@ import algorithms.search.MazeState;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyCode;
 import java.util.Observable;
+import java.util.Properties;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -33,6 +34,7 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
     private Solution solution = null;
     private int lastCharRow;
     private int lastCharCol;
+     protected static Properties prop;
 
     public MyModel() {
         mazeGeneratingServer = new Server(5400,1000,new ServerStrategyGenerateMaze());
@@ -221,6 +223,8 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
      public String getProperties(){
         BufferedReader reader;
+        //Server.Configurations.set
+         //prop.setProperty("generateMaze","MyMazeGenerator");
         String returnText = "The configuration properties file:\n";
         try{
             reader = new BufferedReader(new FileReader("resources/config.properties"));

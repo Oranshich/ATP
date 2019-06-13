@@ -1,5 +1,6 @@
 package View;
 
+import Server.Server;
 import ViewModel.MyViewModel;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
@@ -62,7 +63,7 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Label lbl_columnsNum;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
-    public javafx.scene.control.Button btn_mute;
+    public javafx.scene.control.RadioButton btn_sound;
     public javafx.scene.control.Button btn_small;
     public javafx.scene.control.Button btn_medium;
     public javafx.scene.control.Button btn_large;
@@ -82,6 +83,7 @@ public class MyViewController implements IView, Observer {
         this.primaryStage = primaryStage;
         btn_solveMaze.setDisable(true);
         btn_Save.setDisable(true);
+        bindProperties(viewModel);
         switchScene();
     }
 
@@ -159,6 +161,7 @@ public class MyViewController implements IView, Observer {
         solutionDisplayer.clearSol();
         isPlayed = true;
         bindProperties(viewModel);
+        mazeDisplayer.ControlSong("play");
         viewModel.generateMaze(rows, columns);
         btn_solveMaze.setDisable(false);
         btn_Save.setDisable(false);
@@ -263,6 +266,13 @@ public class MyViewController implements IView, Observer {
         switchScene();
     }
 
+    public void closeWin(){
+        Stage stage = (Stage) btn_playAgain.getScene().getWindow();
+        stage.close();
+        mazeDisplayer.ControlSong("stop");
+    }
+
+
     //Load maze from file
     public void load() throws IOException, ClassNotFoundException {
         viewModel.load();
@@ -273,8 +283,16 @@ public class MyViewController implements IView, Observer {
         viewModel.save();
     }
 
-    public void mute(ActionEvent actionEvent){
-        mazeDisplayer.ControlSong("mute");
+    public void muteOrResumeSound(ActionEvent actionEvent)
+    {
+        if(btn_sound.isSelected()==false) {
+            mazeDisplayer.ControlSong("mute");
+        }
+        else   mazeDisplayer.ControlSong("resume");
+    }
+
+    public void mouseClicked(MouseEvent mouseEvent) {
+        this.mazeDisplayer.requestFocus();
     }
 
     //Exit the game
@@ -297,6 +315,14 @@ public class MyViewController implements IView, Observer {
 
     public void properties(ActionEvent actionEvent) {
         try {
+            //File file = new File("resources/config.properties");
+             Server.Configurations.prop.setProperty("generateMaze","MyMazeGenerator");
+            //OutputStream out = new FileOutputStream("resources/config.properties");
+//            Configuration.prop.setProperty("generateMaze","MyMazeGenerator");
+//            Configuration.prop.store(out,"");
+            //generateMaze();
+
+           /*
             propertiesText = new TextArea();
 
             //Creating a Text object
@@ -312,7 +338,7 @@ public class MyViewController implements IView, Observer {
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
-            txt.setText(toPrint);
+            txt.setText(toPrint);*/
         } catch (Exception e) {
 
         }
@@ -333,23 +359,6 @@ public class MyViewController implements IView, Observer {
     public StringProperty characterPositionColumnProperty() {
         return characterPositionColumn;
     }
-
-//    public void setResizeEvent(Scene scene) {
-//        long width = 0;
-//        long height = 0;
-//        scene.widthProperty().addListener(new ChangeListener<Number>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
-//                System.out.println("Width: " + newSceneWidth);
-//            }
-//        });
-//        scene.heightProperty().addListener(new ChangeListener<Number>() {
-//            @Override
-//            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-//                System.out.println("Height: " + newSceneHeight);
-//            }
-//        });
-//    }
 
     public void About() {
         try {
@@ -421,9 +430,8 @@ public class MyViewController implements IView, Observer {
     public void startGame() {
         try {
             primaryStage.setScene(scene);
-            mazeDisplayer.ControlSong("play");
-            generateMaze();
-            //primaryStage.show();
+            //mazeDisplayer.ControlSong("play");
+            primaryStage.show();
         } catch (Exception e) {
         }
     }

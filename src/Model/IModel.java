@@ -20,6 +20,6 @@ public interface IModel {
     void setSolutionNull();
     int getGoalRow();
     int getGoalColumn();
-
+    String getProperties();
     void setToZero();
 }

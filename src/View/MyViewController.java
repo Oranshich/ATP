@@ -17,7 +17,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -26,6 +28,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.scene.text.Text;
+import javafx.scene.Group;
 
 import java.io.*;
 import java.net.URL;
@@ -38,6 +42,7 @@ public class MyViewController implements IView, Observer {
     private static int rows = 0;
     private static int columns = 0;
     public MenuItem btn_Save;
+    @FXML public TextArea propertiesText;
     private MyViewModel viewModel;
     public MazeDisplayer mazeDisplayer;
     public SolutionDisplayer solutionDisplayer;
@@ -48,6 +53,7 @@ public class MyViewController implements IView, Observer {
     public BorderPane startPane;
     public BorderPane borderPane;
     private boolean isControlDown = false;
+    private boolean isPlayed = false;
 
     @FXML
     public javafx.scene.layout.Pane pane;
@@ -151,7 +157,7 @@ public class MyViewController implements IView, Observer {
     public void generateMaze() {
         btn_generateMaze.setDisable(true);
         solutionDisplayer.clearSol();
-
+        isPlayed = true;
         bindProperties(viewModel);
         viewModel.generateMaze(rows, columns);
         btn_solveMaze.setDisable(false);
@@ -278,7 +284,9 @@ public class MyViewController implements IView, Observer {
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
-        viewModel.moveCharacter(keyEvent.getCode());
+        if(isPlayed){
+            viewModel.moveCharacter(keyEvent.getCode());
+        }
         isControlDown = keyEvent.isControlDown();
         keyEvent.consume();
     }
@@ -289,14 +297,22 @@ public class MyViewController implements IView, Observer {
 
     public void properties(ActionEvent actionEvent) {
         try {
+            propertiesText = new TextArea();
+
+            //Creating a Text object
+            //Text text = new Text();
+            String toPrint = viewModel.getProperties();
             Stage stage = new Stage();
             stage.setTitle("Properties");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("properties.fxml").openStream());
-            Scene scene = new Scene(root, 400, 350);
+            //Platform.runLater(() -> updateTextArea());
+            Scene scene = new Scene(root, 500, 350);
+            TextArea txt = (TextArea)scene.lookup("#propertiesText");
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
+            txt.setText(toPrint);
         } catch (Exception e) {
 
         }

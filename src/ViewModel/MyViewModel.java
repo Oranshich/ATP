@@ -74,6 +74,8 @@ public class MyViewModel extends Observable implements Observer{
 
     public int getGoalColumn(){ return model.getGoalColumn();}
 
+    public String getProperties(){return model.getProperties();}
+
     //save maze
     public void save() throws IOException {
         model.save();

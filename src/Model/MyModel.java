@@ -219,16 +219,18 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
          }
      }
 
-     public String getProperties() throws FileNotFoundException {
+     public String getProperties(){
         BufferedReader reader;
-        String returnText = "";
+        String returnText = "The configuration properties file:\n";
         try{
             reader = new BufferedReader(new FileReader("resources/config.properties"));
             java.lang.String line;
-
-            while ((line = reader.readLine()) != null){
-                returnText = returnText + "\n" + line;
-            }
+            line = reader.readLine();
+            returnText += line + " - Our maze generating using DFS algorithm\n";
+            line = reader.readLine();
+            returnText += line + " - Solving the maze using BestFirstSearch algorithm\n";
+            line = reader.readLine();
+            returnText += line + " - Using Threadpool of size 10";
         }
         catch (IOException e){
 

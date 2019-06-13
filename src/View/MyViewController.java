@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -167,6 +168,7 @@ public class MyViewController implements IView, Observer {
         isPlayed = true;
         bindProperties(viewModel);
         mazeDisplayer.ControlSong("play");
+        btn_sound.setSelected(true);
         viewModel.generateMaze(rows, columns);
         btn_solveMaze.setDisable(false);
         btn_Save.setDisable(false);
@@ -426,8 +428,10 @@ public class MyViewController implements IView, Observer {
     public void startGame() {
         try {
             primaryStage.setScene(scene);
-            //mazeDisplayer.ControlSong("play");
-           // primaryStage.show();
+            MazeDisplayer maze_displayer=(MazeDisplayer)scene.lookup("#mazeDisplayer");
+            maze_displayer.ControlSong("stop");
+            RadioButton button= (RadioButton)scene.lookup("#btn_sound");
+            button.setSelected(false);
         } catch (Exception e) {
         }
     }
@@ -450,7 +454,7 @@ public class MyViewController implements IView, Observer {
         Stage stage = (Stage) btn_OK.getScene().getWindow();
         stage.close();
         if (level.equals("Empty")){
-            //Server.Configurations.prop.setProperty("generateMaze","EmptyMazeGenerator");
+            Server.Configurations.prop.setProperty("generateMaze","EmptyMazeGenerator");
         }
         else if (level.equals("Simple")){
             Server.Configurations.prop.setProperty("generateMaze","SimpleMazeGenerator");

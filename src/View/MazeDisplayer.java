@@ -141,26 +141,30 @@ public class MazeDisplayer extends Canvas{
     public static void ControlSong(String command) {
         if (command.equals("mute")){
             if (maze_play!=null) maze_play.pause();
+
         }
         else if (command.equals("resume")) {
             if (maze_play != null) maze_play.play();
         }
         else if (command.equals("stop")) {
-            if (maze_play != null){
+            if (start_play!=null)
+                start_play.stop();
+            if (maze_play != null)
                 maze_play.stop();
-            }
-            if (win_play!=null){
+            if (win_play!=null)
                 win_play.stop();
-            }
         }
         else if (command.equals("start")) {
             if (win_play!=null) win_play.stop();
+            if (start_play != null)
+                start_play=null;
             start_play = new MediaPlayer(new Media(music1));
             start_play.play();
         }
         else if (command.equals("play")){
             if (start_play!=null) start_play.stop();
-            maze_play=new MediaPlayer(new Media(music2));
+            if ( maze_play != null) maze_play=null;
+            maze_play = new MediaPlayer(new Media(music2));
             maze_play.play();
         }
         else if (command.equals("win")){

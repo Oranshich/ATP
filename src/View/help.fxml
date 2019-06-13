@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<AnchorPane prefHeight="300.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <children>
       <TextArea layoutX="15.0" layoutY="15.0" prefHeight="254.0" prefWidth="410.0" style="-fx-background-color: #AEC327;" text="--&gt; To start playing click on the                                      button&#10;&#10;--&gt; To move your character: &#10;Use the arrows to move up, left, down, right&#10;Use your keypad numbers (9,7,3,1) also move in diagonals.&#10;* Notive that you can only move to a direction if you are&#10; not blocked by a banana.&#10;&#10;--&gt; To see the path to your goal click on the                                button&#10;&#10;Menu:&#10;--&gt; To start a new maze click on the File-&gt; New option&#10;--&gt; To save your maze for later click File-&gt; Save option&#10;--&gt; To load a maze from file click on the File-&gt; Load option&#10;&#10;Good luck and have fun!">
          <font>

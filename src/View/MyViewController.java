@@ -63,6 +63,9 @@ public class MyViewController implements IView, Observer {
     public javafx.scene.control.Button btn_start;
     public javafx.scene.control.Button btn_playAgain;
     public javafx.scene.control.Button btn_exit;
+    public javafx.scene.control.Button btn_OK;
+    public javafx.scene.control.ChoiceBox<String> levelList;
+    public javafx.scene.control.ChoiceBox<String> solveList;
 
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
@@ -308,7 +311,7 @@ public class MyViewController implements IView, Observer {
             stage.setTitle("Properties");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("properties.fxml").openStream());
-            Scene scene = new Scene(root, 400, 350);
+            Scene scene = new Scene(root, 350, 250);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
@@ -404,7 +407,7 @@ public class MyViewController implements IView, Observer {
         try {
             primaryStage.setScene(scene);
             //mazeDisplayer.ControlSong("play");
-            primaryStage.show();
+           // primaryStage.show();
         } catch (Exception e) {
         }
     }
@@ -412,4 +415,33 @@ public class MyViewController implements IView, Observer {
     public MyViewModel getViewModel() {
         return viewModel;
     }
+
+    public void setSettings(ActionEvent actionEvent) {
+        Stage stage = (Stage) btn_OK.getScene().getWindow();
+        stage.close();
+        String level= levelList.getValue();
+        String solve=solveList.getValue();
+        if (level.equals("Empty")){
+
+        }
+        else if (level.equals("Simply")){
+
+        }
+        else  if (level.equals("Complicated")){
+            int j=0;
+        }
+        if (solve.equals("Depth First Search")){
+            int i=0;
+        }
+        else if (solve.equals("Breath First Search")){
+
+        }
+        else  if (solve.equals("Best First Search")){
+
+        }
+
+    }
+
+
+
 }

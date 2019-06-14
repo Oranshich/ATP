@@ -452,7 +452,7 @@ public class MyViewController implements IView, Observer {
         if (solveAlgo.equals("Depth First Search")){
             Server.Configurations.prop.setProperty("solveMaze","DepthFirstSearch");
         }
-        else if (solveAlgo.equals("Breath First Search")){
+        else if (solveAlgo.equals("Breadth First Search")){
             Server.Configurations.prop.setProperty("solveMaze","BreadthFirstSearch");
         }
         else  if (solveAlgo.equals("Best First Search")){

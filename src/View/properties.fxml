@@ -29,14 +29,14 @@
             <Font name="Arial Rounded MT Bold" size="12.0" />
          </font>
       </Button>
-      <MenuButton fx:id="levelList" layoutX="180.0" layoutY="111.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Level">
+      <MenuButton fx:id="levelList" layoutX="180.0" layoutY="111.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Level: ">
         <items>
           <MenuItem mnemonicParsing="false" text="Empty" onAction="#selectMenuLevel"/>
           <MenuItem mnemonicParsing="false" text="Simple" onAction="#selectMenuLevel"/>
            <MenuItem mnemonicParsing="false" text="Complicated" onAction="#selectMenuLevel"/>
         </items>
       </MenuButton>
-      <MenuButton fx:id="solveList" layoutX="180.0" layoutY="160.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Solving Algorithm">
+      <MenuButton fx:id="solveList" layoutX="180.0" layoutY="160.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Solving Algorithm: ">
         <items>
           <MenuItem mnemonicParsing="false" text="Depth First Search" onAction="#selectMenuSolve"/>
           <MenuItem mnemonicParsing="false" text="Breadth First Search" onAction="#selectMenuSolve"/>

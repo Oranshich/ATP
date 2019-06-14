@@ -428,10 +428,12 @@ public class MyViewController implements IView, Observer {
     public void startGame() {
         try {
             primaryStage.setScene(scene);
+
             MazeDisplayer maze_displayer=(MazeDisplayer)scene.lookup("#mazeDisplayer");
             maze_displayer.ControlSong("stop");
             RadioButton button= (RadioButton)scene.lookup("#btn_sound");
             button.setSelected(false);
+
         } catch (Exception e) {
         }
     }

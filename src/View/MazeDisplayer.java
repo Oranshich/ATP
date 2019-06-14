@@ -15,12 +15,16 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static javafx.scene.media.MediaPlayer.*;
+
 public class MazeDisplayer extends Canvas{
 
     private int[][] maze;
@@ -29,7 +33,7 @@ public class MazeDisplayer extends Canvas{
     private static MediaPlayer win_play;
     private static String music1 = MazeDisplayer.class.getResource("/music/Bassa.mp3").toString();
     private static String music2 = MazeDisplayer.class.getResource("/music/Nana Banana.mp3").toString();
-    private static String music3 = MazeDisplayer.class.getResource("/music/Bassa.mp3").toString();
+    private static String music3 = MazeDisplayer.class.getResource("/music/win.mp3").toString();
     private double zoom = 1;
     private double canvasHeight;
     private double canvasWidth;
@@ -141,31 +145,40 @@ public class MazeDisplayer extends Canvas{
     public static void ControlSong(String command) {
         if (command.equals("mute")){
             if (maze_play!=null) maze_play.pause();
+
         }
         else if (command.equals("resume")) {
             if (maze_play != null) maze_play.play();
         }
         else if (command.equals("stop")) {
-            if (maze_play != null){
+            if (start_play!=null)
+                start_play.stop();
+            if (maze_play != null)
                 maze_play.stop();
-            }
-            if (win_play!=null){
+            if (win_play!=null)
                 win_play.stop();
-            }
         }
         else if (command.equals("start")) {
             if (win_play!=null) win_play.stop();
-            start_play = new MediaPlayer(new Media(music1));
+            if (start_play != null) start_play.stop();
+            else
+                start_play = new MediaPlayer(new Media(music1));
+            start_play.setCycleCount(MediaPlayer.INDEFINITE); //loop forever
             start_play.play();
         }
         else if (command.equals("play")){
             if (start_play!=null) start_play.stop();
-            maze_play=new MediaPlayer(new Media(music2));
+            if ( maze_play == null)
+                maze_play = new MediaPlayer(new Media(music2));
+            else
+                maze_play.stop();
+            maze_play.setCycleCount(MediaPlayer.INDEFINITE); //loop forever
             maze_play.play();
         }
         else if (command.equals("win")){
             if ( maze_play!=null) maze_play.stop();
             win_play=new MediaPlayer(new Media(music3));
+            win_play.setCycleCount(MediaPlayer.INDEFINITE); //loop forever
             win_play.play();
         }
     }

@@ -19,7 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -53,12 +55,17 @@ public class MyViewController implements IView, Observer {
     private boolean isControlDown = false;
     private static String level;
     private static String solveAlgo;
+    private boolean isPlayed = false;
+
+
 
     @FXML
     public javafx.scene.layout.Pane pane;
     public javafx.scene.layout.AnchorPane anchorPane;
     public javafx.scene.control.Label lbl_rowsNum;
     public javafx.scene.control.Label lbl_columnsNum;
+    public javafx.scene.control.Label lbl_level;
+    public javafx.scene.control.Label lbl_solveAlgo;
     public javafx.scene.control.Button btn_generateMaze;
     public javafx.scene.control.Button btn_solveMaze;
     public javafx.scene.control.RadioButton btn_sound;
@@ -75,8 +82,6 @@ public class MyViewController implements IView, Observer {
     //region String Property for Binding
     public StringProperty characterPositionRow = new SimpleStringProperty();
     public StringProperty characterPositionColumn = new SimpleStringProperty();
-    public StringProperty mazeRowSize = new SimpleStringProperty();
-    public StringProperty mazeColSize = new SimpleStringProperty();
 
     public void initialize(MyViewModel viewModel, Stage primaryStage, Scene scene) {
         this.viewModel = viewModel;
@@ -136,31 +141,34 @@ public class MyViewController implements IView, Observer {
     }
 
     public void setScroll(ScrollEvent e){
-            double deltaY = e.getDeltaY();
-            if(isControlDown){
-                if(deltaY > 0){
-                    mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);
-                    characterDisplayer.setZoom(characterDisplayer.getZoom()*1.1);
-                    solutionDisplayer.setZoom(solutionDisplayer.getZoom()*1.1);
-                }
-                else{
-                    mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
-                    characterDisplayer.setZoom(characterDisplayer.getZoom()/1.1);
-                    solutionDisplayer.setZoom(solutionDisplayer.getZoom()/1.1);
-                }
-
-                displayMaze(viewModel.getMaze());
-                displayCharacter(viewModel.getMaze());
-                if(viewModel.getSolution() != null){
-                    displaySolution(viewModel.getMaze(),viewModel.getSolution());
-                }
+        double deltaY = e.getDeltaY();
+        if(isControlDown){
+            if(deltaY > 0){
+                mazeDisplayer.setZoom(mazeDisplayer.getZoom()*1.1);
+                characterDisplayer.setZoom(characterDisplayer.getZoom()*1.1);
+                solutionDisplayer.setZoom(solutionDisplayer.getZoom()*1.1);
             }
+            else{
+                mazeDisplayer.setZoom(mazeDisplayer.getZoom()/1.1);
+                characterDisplayer.setZoom(characterDisplayer.getZoom()/1.1);
+                solutionDisplayer.setZoom(solutionDisplayer.getZoom()/1.1);
+            }
+
+            displayMaze(viewModel.getMaze());
+            displayCharacter(viewModel.getMaze());
+            if(viewModel.getSolution() != null){
+                displaySolution(viewModel.getMaze(),viewModel.getSolution());
+            }
+        }
     }
 
     public void generateMaze() {
         btn_generateMaze.setDisable(true);
         solutionDisplayer.clearSol();
+        isPlayed = true;
+        bindProperties(viewModel);
         mazeDisplayer.ControlSong("play");
+        btn_sound.setSelected(true);
         viewModel.generateMaze(rows, columns);
         btn_solveMaze.setDisable(false);
         btn_Save.setDisable(false);
@@ -173,6 +181,7 @@ public class MyViewController implements IView, Observer {
         int goalRow=viewModel.getGoalRow();
         int goalCol=viewModel.getGoalColumn();
         mazeDisplayer.setMaze(maze, goalRow, goalCol);
+        btn_generateMaze.setDisable(false);
     }
 
     public void displayCharacter(int[][] maze) {
@@ -301,7 +310,9 @@ public class MyViewController implements IView, Observer {
     }
 
     public void KeyPressed(KeyEvent keyEvent) {
-        viewModel.moveCharacter(keyEvent.getCode());
+        if(isPlayed){
+            viewModel.moveCharacter(keyEvent.getCode());
+        }
         isControlDown = keyEvent.isControlDown();
         keyEvent.consume();
     }
@@ -417,8 +428,10 @@ public class MyViewController implements IView, Observer {
     public void startGame() {
         try {
             primaryStage.setScene(scene);
-            //mazeDisplayer.ControlSong("play");
-           // primaryStage.show();
+            MazeDisplayer maze_displayer=(MazeDisplayer)scene.lookup("#mazeDisplayer");
+            maze_displayer.ControlSong("stop");
+            RadioButton button= (RadioButton)scene.lookup("#btn_sound");
+            button.setSelected(false);
         } catch (Exception e) {
         }
     }
@@ -441,7 +454,7 @@ public class MyViewController implements IView, Observer {
         Stage stage = (Stage) btn_OK.getScene().getWindow();
         stage.close();
         if (level.equals("Empty")){
-            //Server.Configurations.prop.setProperty("generateMaze","EmptyMazeGenerator");
+            Server.Configurations.prop.setProperty("generateMaze","EmptyMazeGenerator");
         }
         else if (level.equals("Simple")){
             Server.Configurations.prop.setProperty("generateMaze","SimpleMazeGenerator");
@@ -459,7 +472,4 @@ public class MyViewController implements IView, Observer {
             Server.Configurations.prop.setProperty("solveMaze","BestFirstSearch");
         }
     }
-
-
-
 }

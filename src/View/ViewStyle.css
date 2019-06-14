@@ -3,10 +3,11 @@
 }
 
 Button {
-    -fx-text-fill: #160303;
+    -fx-text-fill: #fdfffa;
     -fx-font-family: "Arial Rounded MT Bold";
+    -fx-font-size: 14;
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#aec327, #f2ffc2);
+    -fx-background-color: linear-gradient(#070101, #070101);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 

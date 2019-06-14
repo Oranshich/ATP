@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" onKeyPressed="#KeyPressed" onKeyReleased="#KeyReleased" onScroll="#setScroll" prefHeight="560.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
+<BorderPane fx:id="borderPane" onKeyPressed="#KeyPressed" onKeyReleased="#KeyReleased" onScroll="#setScroll" style="-fx-background-image:url(images/bananaBack.jpg)" prefHeight="560.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
     <top>
         <VBox prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
@@ -80,7 +80,11 @@
             <Pane prefHeight="49.0" prefWidth="172.0" />
             <Pane prefHeight="221.0" prefWidth="172.0">
                <children>
-                  <RadioButton fx:id="btn_sound" layoutX="8.0" layoutY="290.0" mnemonicParsing="false" onAction="#muteOrResumeSound" onMouseClicked="#mouseClicked" text="Sound On / Off" />
+                  <RadioButton fx:id="btn_sound" layoutX="8.0" layoutY="290.0" mnemonicParsing="false" onAction="#muteOrResumeSound" onMouseClicked="#mouseClicked" text="Sound On / Off" >
+                   <font>
+                       <Font name="Arial Rounded MT Bold" size="14.0" />
+                   </font>
+                   </RadioButton>
                </children>
             </Pane>
             </children></VBox>
@@ -88,7 +92,7 @@
     <center>
         <Pane fx:id="pane" prefHeight="600.0" prefWidth="600.0" style="-fx-border-width: 4; -fx-background-color: black" BorderPane.alignment="CENTER">
             <children>
-                <MazeDisplayer fx:id="mazeDisplayer" height="500.0" imageFileNameEnd="resources/images/trophy.jpg" imageFileNameWall="resources/images/banana.jpg" width="600.0" />
+                <MazeDisplayer fx:id="mazeDisplayer" height="500.0" imageFileNameEnd="resources/images/trophy4.jpg" imageFileNameWall="resources/images/banana.jpg" width="600.0" />
                 <SolutionDisplayer fx:id="solutionDisplayer" height="500.0" imageFileNameSolution="resources/images/mic.jpg" width="600.0" />
                 <CharacterDisplayer fx:id="characterDisplayer" height="500.0" imageFileNameCharacter="resources/images/Neta.jpg" width="600.0" />
             </children>

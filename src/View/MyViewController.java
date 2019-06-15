@@ -332,7 +332,7 @@ public class MyViewController implements IView, Observer {
             stage.setTitle("Properties");
             FXMLLoader fxmlLoader = new FXMLLoader();
             Parent root = fxmlLoader.load(getClass().getResource("properties.fxml").openStream());
-            Scene scene = new Scene(root, 350, 250);
+            Scene scene = new Scene(root, 370, 300);
             MenuButton menuButtonLabel=(MenuButton)scene.lookup("#levelList");
             level= Server.Configurations.prop.getProperty("generateMaze");
             menuButtonLabel.setText(level);

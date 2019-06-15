@@ -18,6 +18,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         MyModel model = new MyModel();
         model.startServers();
         MyViewModel viewModel = new MyViewModel(model);
@@ -48,6 +49,7 @@ public class Main extends Application {
                 if (result.get() == ButtonType.OK){
                     // user chose OK, close program
                     model.stopServers();
+                    primaryStage.close();
                 } else {
                     // user chose CANCEL or closed the dialog
                     windowEvent.consume();

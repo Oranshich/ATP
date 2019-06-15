@@ -30,13 +30,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.stage.WindowEvent;
+import javafx.scene.control.ButtonType;
+import javafx.event.EventHandler;
 
 import java.io.*;
 import java.net.URL;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MyViewController implements IView, Observer {
 
@@ -165,6 +165,7 @@ public class MyViewController implements IView, Observer {
 
     public void generateMaze() {
         btn_generateMaze.setDisable(true);
+        btn_sound.setDisable(false);
         solutionDisplayer.clearSol();
         isPlayed = true;
         bindProperties(viewModel);
@@ -269,8 +270,26 @@ public class MyViewController implements IView, Observer {
             mazeDisplayer.ControlSong("win");
             stage.initModality(Modality.APPLICATION_MODAL); //Lock the window until it closes
             stage.show();
+            setOnCloseEvent(stage);
         } catch (Exception e) {
         }
+    }
+
+    public void setOnCloseEvent(Stage primaryStage){
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent windowEvent) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure you want to exit?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    // user chose OK, close program
+                    mazeDisplayer.ControlSong("stop");
+                    primaryStage.close();
+                } else {
+                    // user chose CANCEL or closed the dialog
+                    windowEvent.consume();
+                }
+            }
+        });
     }
 
     public void PlayAgain(){
@@ -437,7 +456,7 @@ public class MyViewController implements IView, Observer {
             MazeDisplayer maze_displayer=(MazeDisplayer)scene.lookup("#mazeDisplayer");
             maze_displayer.ControlSong("stop");
             RadioButton button= (RadioButton)scene.lookup("#btn_sound");
-            button.setSelected(false);
+            button.setDisable(true);
 
         } catch (Exception e) {
         }

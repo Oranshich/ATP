@@ -487,13 +487,13 @@ public class MyViewController implements IView, Observer {
         //Right
         if(event.getX() > cellWidth + minX)
             viewModel.moveCharacter(KeyCode.NUMPAD6);
-            //Down
+        //Down
         else if(event.getY() > cellHeight + minY)
             viewModel.moveCharacter(KeyCode.NUMPAD2);
-            //Left
+        //Left
         else if(event.getX() < minX)
             viewModel.moveCharacter(KeyCode.NUMPAD4);
-            //Up
+        //Up
         else if(event.getY() < minY)
             viewModel.moveCharacter(KeyCode.NUMPAD8);
         //Up right
@@ -508,6 +508,5 @@ public class MyViewController implements IView, Observer {
         //UpLeft
         else if(event.getX() < minX && event.getY() > minY)
             viewModel.moveCharacter(KeyCode.NUMPAD7);
-
     }
 }

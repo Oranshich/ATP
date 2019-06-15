@@ -168,10 +168,11 @@ public class MazeDisplayer extends Canvas{
         }
         else if (command.equals("play")){
             if (start_play!=null) start_play.stop();
-            if ( maze_play == null)
-                maze_play = new MediaPlayer(new Media(music2));
-            else
+            if ( maze_play != null) {
                 maze_play.stop();
+                maze_play = null;
+            }
+            maze_play = new MediaPlayer(new Media(music2));
             maze_play.setCycleCount(MediaPlayer.INDEFINITE); //loop forever
             maze_play.play();
         }

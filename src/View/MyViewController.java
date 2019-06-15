@@ -56,7 +56,8 @@ public class MyViewController implements IView, Observer {
     private static String level;
     private static String solveAlgo;
     private boolean isPlayed = false;
-
+    private double minX;
+    private double minY;
 
 
     @FXML
@@ -216,6 +217,8 @@ public class MyViewController implements IView, Observer {
                 case 1:
                     displayMaze(viewModel.getMaze());
                     displayCharacter(viewModel.getMaze());
+                    minX = characterDisplayer.getMinX();
+                    minY = characterDisplayer.getMinY();
                     break;
                 case 2:
                     displaySolution(viewModel.getMaze(), viewModel.getSolution());
@@ -223,6 +226,8 @@ public class MyViewController implements IView, Observer {
                     break;
                 case 3:
                     displayCharacter(viewModel.getMaze());
+                    minX = characterDisplayer.getMinX();
+                    minY = characterDisplayer.getMinY();
                     break;
                 //Load
                 case 4:
@@ -428,10 +433,12 @@ public class MyViewController implements IView, Observer {
     public void startGame() {
         try {
             primaryStage.setScene(scene);
+
             MazeDisplayer maze_displayer=(MazeDisplayer)scene.lookup("#mazeDisplayer");
             maze_displayer.ControlSong("stop");
             RadioButton button= (RadioButton)scene.lookup("#btn_sound");
             button.setSelected(false);
+
         } catch (Exception e) {
         }
     }
@@ -471,5 +478,36 @@ public class MyViewController implements IView, Observer {
         else  if (solveAlgo.equals("Best First Search")){
             Server.Configurations.prop.setProperty("solveMaze","BestFirstSearch");
         }
+    }
+
+    public void onMouseDrag(MouseEvent event){
+        double cellHeight = mazeDisplayer.getCellHeight();
+        double cellWidth = mazeDisplayer.getCellWidth();
+
+        //Right
+        if(event.getX() > cellWidth + minX)
+            viewModel.moveCharacter(KeyCode.NUMPAD6);
+            //Down
+        else if(event.getY() > cellHeight + minY)
+            viewModel.moveCharacter(KeyCode.NUMPAD2);
+            //Left
+        else if(event.getX() < minX)
+            viewModel.moveCharacter(KeyCode.NUMPAD4);
+            //Up
+        else if(event.getY() < minY)
+            viewModel.moveCharacter(KeyCode.NUMPAD8);
+        //Up right
+        else if(event.getX() > cellWidth + minX && event.getY() < minY)
+            viewModel.moveCharacter(KeyCode.NUMPAD9);
+        //RightDown
+        else if(event.getX() > cellWidth + minX && event.getY() > minY + cellHeight)
+            viewModel.moveCharacter(KeyCode.NUMPAD3);
+        //LeftDown
+        else if(event.getX() < minX && event.getY() > minY + cellHeight)
+            viewModel.moveCharacter(KeyCode.NUMPAD1);
+        //UpLeft
+        else if(event.getX() < minX && event.getY() > minY)
+            viewModel.moveCharacter(KeyCode.NUMPAD7);
+
     }
 }

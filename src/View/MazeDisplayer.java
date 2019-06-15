@@ -39,6 +39,7 @@ public class MazeDisplayer extends Canvas{
     private double canvasWidth;
     private int goalRow;
     private int goalColumn;
+
     @FXML
     private StringProperty ImageFileNameWall = new SimpleStringProperty();
     private StringProperty ImageFileNameEnd = new SimpleStringProperty();
@@ -59,6 +60,13 @@ public class MazeDisplayer extends Canvas{
         redraw();
     }
 
+    public double getCellHeight(){
+        return getHeight()/ maze.length*zoom;
+    }
+
+    public double getCellWidth(){
+        return getWidth()/ maze[0].length*zoom;
+    }
 
     public void redraw() {
         if (maze != null) {
@@ -69,7 +77,6 @@ public class MazeDisplayer extends Canvas{
             double canvasWidth = getWidth();
             double cellHeight = canvasHeight / maze.length*zoom;
             double cellWidth = canvasWidth / maze[0].length*zoom;
-
             try {
                 Image wallImage = new Image(new FileInputStream(ImageFileNameWall.get()));
                 Image endImage = new Image(new FileInputStream(ImageFileNameEnd.get()));
@@ -182,6 +189,7 @@ public class MazeDisplayer extends Canvas{
             win_play.play();
         }
     }
+
 
 
 }

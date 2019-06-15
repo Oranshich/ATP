@@ -67,33 +67,38 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
 
     @Override
     public void moveCharacter(KeyCode movement) {
+        boolean change= false;
         switch (movement){
             case UP:
             case NUMPAD8:
-                if(maze.isLegal(characterRow -1,characterColumn))
+                if(maze.isLegal(characterRow -1,characterColumn)){
+                    change=true;
                     characterRow--;
-                break;
+                }break;
             case DOWN:
             case NUMPAD2:
-                if(maze.isLegal(characterRow +1,characterColumn))
+                if(maze.isLegal(characterRow +1,characterColumn)) {
                     characterRow++;
-                break;
+                    change = true;
+                }break;
             case RIGHT:
             case NUMPAD6:
-                if(maze.isLegal(characterRow ,characterColumn+1))
-                characterColumn++;
+                if(maze.isLegal(characterRow ,characterColumn+1)){
+                    characterColumn++;
+                    change=true;}
                 break;
             case LEFT:
             case NUMPAD4:
-                if(maze.isLegal(characterRow ,characterColumn-1))
-                characterColumn--;
-                break;
-
-                //diagonals
+                if(maze.isLegal(characterRow ,characterColumn-1)) {
+                    change=true;
+                    characterColumn--;
+                } break;
+             //diagonals
             //down right
             case NUMPAD3:
                 if(maze.isLegal(characterRow+1 ,characterColumn+1)) {
                     if((maze.isLegal(characterRow+1 ,characterColumn))|| (maze.isLegal(characterRow,characterColumn+1))) {
+                        change=true;
                         characterColumn++;
                         characterRow++;
                     }
@@ -103,6 +108,7 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
             case NUMPAD1:
                 if(maze.isLegal(characterRow+1 ,characterColumn-1)) {
                     if((maze.isLegal(characterRow ,characterColumn+1))|| (maze.isLegal(characterRow ,characterColumn-1))) {
+                        change=true;
                         characterColumn--;
                         characterRow++;
                     }
@@ -112,6 +118,7 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
             case NUMPAD9:
                 if(maze.isLegal(characterRow-1 ,characterColumn+1)) {
                     if((maze.isLegal(characterRow-1 ,characterColumn))|| (maze.isLegal(characterRow ,characterColumn+1))) {
+                        change=true;
                         characterColumn++;
                         characterRow--;
                     }
@@ -121,14 +128,17 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
             case NUMPAD7:
                  if(maze.isLegal(characterRow-1 ,characterColumn-1)) {
                      if((maze.isLegal(characterRow-1 ,characterColumn))|| (maze.isLegal(characterRow ,characterColumn-1))) {
+                         change=true;
                          characterColumn--;
                          characterRow--;
                      }
                   }
             break;
         }
-        setChanged();
-        notifyObservers(3);
+        if (change==true) {
+            setChanged();
+            notifyObservers(3);
+        }
     }
 
     @Override
